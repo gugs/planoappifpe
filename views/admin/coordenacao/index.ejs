@@ -1,0 +1,28 @@
+<%- include('../../partials/header.ejs') -%>
+    <%- include('../../partials/navbar.ejs') -%>
+
+        <body>
+            <div class="container">
+                <br>
+                <h2>Coordenações Cadastradas:</h2>
+                <hr>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% coordenacoes.forEach(coordenacao=> { %>
+                            <tr>
+                                <th> <%= coordenacao.id %></th>
+                                <th> <%= coordenacao.nome %></th>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </body>
+
+        <%- include('../../partials/footer.ejs') -%>

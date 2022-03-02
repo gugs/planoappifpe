@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 
 
 // instanciando o sequelize. argumentos: nome do esquema, usuario, senha e o json com endereco e dialeto
-const connection = new Sequelize('guiapress', 'root', 'root!@#', {
+const connection = new Sequelize('planoapp', 'root', 'root!@#', {
     host: 'localhost',
     dialect: 'mysql',
     timezone: '-03:00'
