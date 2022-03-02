@@ -1,0 +1,60 @@
+<%- include('../../partials/header.ejs') -%>
+    <%- include('../../partials/navbar.ejs') -%>
+
+        <body>
+            <div class="container">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h2>Informe os dados do docente:</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/coordenacao/create" method="post">
+                            <label class="form-label">Nome do Docente: </label>
+                            <hr>
+                            <input class="form-control" type="text" name="nome"
+                                placeholder="Digite aqui o nome do docente">
+                            <br>
+                            <div class="row g3 mb-3">
+                                <div class="col md-6">
+                                    <label class="form-label">SIAPE: </label>
+                                    <input class="form-control mb-3" type="text" name="siape"
+                                        placeholder="Digite aqui o número SIAPE">
+                                </div>
+                                <div class="col md-6">
+                                    <label class="form-label">Email: </label>
+                                    <input class="form-control" type="email" name="email"
+                                        placeholder="exemplo@exemplo.com">
+                                </div>
+                            </div>
+                            <div class="row g3">
+                                <div class="col md-4">
+                                    <label class="form-label">Digite a sua Senha: </label>
+                                    <input class="form-control" type="password" name="senha1"
+                                        placeholder="********">
+                                </div>
+                                <div class="col md-4">
+                                    <label class="form-label">Confirme sua Senha: </label>
+                                    <input class="form-control" type="password" name="senha2"
+                                        placeholder="********">
+                                </div>
+                                <div class="col md-4">
+                                    <label class="form-label">Regime de Trabalho: </label>
+                                    <div class="input-group mb-3">
+                                        <select class="form-select" id="inputGroupSelect01">
+                                          <option selected>Escolha...</option>
+                                          <option value="1">20</option>
+                                          <option value="2">40</option>
+                                          <option value="3">DE</option>
+                                        </select>
+                                      </div>    
+                                </div>
+                            </div>
+                            <br>
+                            <button class="btn btn-success">Cadastrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </body>
+
+        <%- include('../../partials/footer.ejs') -%>
