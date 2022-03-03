@@ -12,7 +12,7 @@ const Docente = connection.define('docente', {
         allowNull: false
     },
     regime:{
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
     },
     email: {

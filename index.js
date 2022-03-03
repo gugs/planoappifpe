@@ -2,6 +2,15 @@ const express = require("express");
 const app = express();
 const port = 8080;
 
+const Coordenacao = require("./coordenacao/Coordenacao");
+const Docente = require("./docente/Docente");
+const connection = require("./database/database");
+
+Coordenacao.hasMany(Docente);
+Docente.belongsTo(Coordenacao);
+
+connection.sync({force:true});
+
 const coordenacaoController = require("./coordenacao/CoordenacaoController");
 const docenteController = require("./docente/docenteController");
 //importando o modulo body parser (manipulador dos campos http)
@@ -20,6 +29,7 @@ app.use("/",docenteController);
 app.get("/", (req,res)=>{
     res.render("index");
 });
+
 
 app.listen(port,()=>{
     console.log("servidor funcionando!");
