@@ -1,0 +1,43 @@
+<%- include('../../partials/header.ejs') -%>
+    <%- include('../../partials/navbar.ejs') -%>
+
+        <body>
+            <div class="container">
+                <br>
+                <h2>Docentes Cadastrados:</h2>
+                <hr>
+                <a class="btn btn-success" href="/admin/docente/create">Cadastrar Docente</a>
+                <hr>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>SIAPE</th>
+                            <th>E-mail</th>
+                            <th>Regime</th>
+                            <th>Coordenação</th>
+                            <th>Opções</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% docentes.forEach(docente => { %>
+                            <tr>
+                                <th> <%= docente.id %></th>
+                                <th> <%= docente.nome %></th>
+                                <th> <%= docente.siape %></th>
+                                <th> <%= docente.email %></th>
+                                <th> <%= docente.regime %></th>
+                                <th> <%= docente.coordenacao.nome %></th>
+                                <th>
+                                    <a class=" btn btn-warning" href="">Editar</a>
+                                    <a class=" btn btn-danger" href="">Deletar</a>
+                                </th>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </body>
+
+        <%- include('../../partials/footer.ejs') -%>

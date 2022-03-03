@@ -9,7 +9,7 @@ const connection = require("./database/database");
 Coordenacao.hasMany(Docente);
 Docente.belongsTo(Coordenacao);
 
-connection.sync({force:true});
+connection.sync({force:false});
 
 const coordenacaoController = require("./coordenacao/CoordenacaoController");
 const docenteController = require("./docente/docenteController");

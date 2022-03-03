@@ -12,6 +12,12 @@ router.get("/admin/docente/create",(req,res)=>{
     });    
 });
 
+router.get("/admin/docente/index",(req,res)=>{
+    Docente.findAll({include:{model:Coordenacao, as: "coordenacao"}}).then(docentes=>{
+        res.render("admin/docente/index",{docentes:docentes});
+    });    
+});
+
 router.post("/docente/create",(req,res)=>{
 
     var senha1 = req.body.senha1;
@@ -20,6 +26,8 @@ router.post("/docente/create",(req,res)=>{
     var siape = req.body.siape;
     var email = req.body.email;
     var regime = req.body.regime;
+    var coordenacaoId = req.body.coordenacaoId;
+
     var salt = bcrypt.genSaltSync(10);
 
     if(senha1 == senha2)
@@ -31,6 +39,7 @@ router.post("/docente/create",(req,res)=>{
             siape: siape,
             email: email,
             regime:regime,
+            coordenacaoId: coordenacaoId,
             senha: senha2
         }).then(()=>{
             res.redirect("/")

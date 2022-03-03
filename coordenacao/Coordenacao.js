@@ -13,6 +13,4 @@ const Coordenacao = connection.define('coordenacao',{
     }
 });
 
-//Coordenacao.sync({force:true});
-
 module.exports = Coordenacao;

@@ -25,6 +25,4 @@ const Docente = connection.define('docente', {
     },
 });
 
-Docente.sync({force:true});
-
 module.exports = Docente;
