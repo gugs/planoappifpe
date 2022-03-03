@@ -1,0 +1,35 @@
+<%- include('../../partials/header.ejs') -%>
+    <%- include('../../partials/navbar.ejs') -%>
+
+        <body>
+            <div class="container">
+                <br>
+                <h2>Coordenações Cadastradas:</h2>
+                <hr>
+                <a class="btn btn-success" href="/admin/coordenacao/create">Cadastrar Coordenação</a>
+                <hr>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Opções</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% coordenacoes.forEach(coordenacao=> { %>
+                            <tr>
+                                <th> <%= coordenacao.id %></th>
+                                <th> <%= coordenacao.nome %></th>
+                                <th>
+                                    <a class=" btn btn-warning" href="">Editar</a>
+                                    <a class=" btn btn-danger" href="">Deletar</a>
+                                </th>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </body>
+
+        <%- include('../../partials/footer.ejs') -%>

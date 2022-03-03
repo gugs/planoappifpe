@@ -4,6 +4,7 @@ const port = 8080;
 
 const Coordenacao = require("./coordenacao/Coordenacao");
 const Docente = require("./docente/Docente");
+const Disciplina = require("./disciplina/Disciplina");
 const connection = require("./database/database");
 
 Coordenacao.hasMany(Docente);

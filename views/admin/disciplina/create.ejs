@@ -1,0 +1,23 @@
+<%- include('../../partials/header.ejs') -%>
+    <%- include('../../partials/navbar.ejs') -%>
+
+        <body>
+            <div class="container">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h2>Informe os dados da coordenação:</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/coordenacao/create" method="post">
+                            <label class="form-label">Nome da Coordenação: </label>
+                            <hr>
+                            <input class="form-control" type="text" name="nome" placeholder="Digite aqui o nome da coordenação">
+                            <br>
+                            <button class="btn btn-success">Cadastrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </body>
+
+        <%- include('../../partials/footer.ejs') -%>
