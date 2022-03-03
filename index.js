@@ -10,10 +10,11 @@ const connection = require("./database/database");
 Coordenacao.hasMany(Docente);
 Docente.belongsTo(Coordenacao);
 
-connection.sync({force:false});
+Disciplina.sync({force:false});
 
 const coordenacaoController = require("./coordenacao/CoordenacaoController");
 const docenteController = require("./docente/docenteController");
+const disciplinaController = require("./disciplina/DisciplinaController");
 //importando o modulo body parser (manipulador dos campos http)
 const bodyParser = require("body-parser");
 
@@ -26,6 +27,7 @@ app.use(express.static("public"));
 
 app.use("/",coordenacaoController);
 app.use("/",docenteController);
+app.use("/",disciplinaController);
 
 app.get("/", (req,res)=>{
     res.render("index");

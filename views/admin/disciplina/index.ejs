@@ -4,23 +4,28 @@
         <body>
             <div class="container">
                 <br>
-                <h2>Coordenações Cadastradas:</h2>
+                <h2>Disciplinas Cadastradas:</h2>
                 <hr>
-                <a class="btn btn-success" href="/admin/coordenacao/create">Cadastrar Coordenação</a>
+                <a class="btn btn-success" href="/admin/disciplina/create">Cadastrar Disciplina</a>
                 <hr>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Nome</th>
-                            <th>Opções</th>
+                            <th>CH/Aula</th>
+                            <th>CH/Relógio</th>
+                            <th>Tipo</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% coordenacoes.forEach(coordenacao=> { %>
+                        <% disciplinas.forEach(disciplina=> { %>
                             <tr>
-                                <th> <%= coordenacao.id %></th>
-                                <th> <%= coordenacao.nome %></th>
+                                <th> <%= disciplina.id %></th>
+                                <th> <%= disciplina.nome %></th>
+                                <th> <%= disciplina.cargaHorariaAula %></th>
+                                <th> <%= disciplina.cargaHorariaRelogio %></th>
+                                <th> <%= disciplina.tipo %></th>
                                 <th>
                                     <a class=" btn btn-warning" href="">Editar</a>
                                     <a class=" btn btn-danger" href="">Deletar</a>

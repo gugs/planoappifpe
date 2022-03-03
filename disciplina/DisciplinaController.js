@@ -10,16 +10,16 @@ router.get("/admin/disciplina/create",(req,res)=>{
 
 router.post("/admin/disciplina/create",(req,res)=>{
     var nome = req.body.nome;
-    var cargaHorariaAula = req.body.cargaHorariaAula;
-    var cargaHorariaRelogio = req.body.cargaHorariaRelogio;
+    var cargaHorariaAula = req.body.cargahorariaaula;
+    var cargaHorariaRelogio = req.body.cargahorariarelogio;
     var tipo = req.body.tipo;
     var slug = slugify(nome);
 
     Disciplina.create({
         nome: nome,
-        cargaHorariaAula = cargaHorariaAula,
-        cargaHorariaRelogio = cargaHorariaRelogio,
-        tipo = tipo,
+        cargaHorariaAula: cargaHorariaAula,
+        cargaHorariaRelogio: cargaHorariaRelogio,
+        tipo: tipo,
         slug: slug
     }).then(()=>{
         res.redirect("/admin/disciplina/index");
