@@ -1,0 +1,162 @@
+<%- include('../partials/header.ejs') -%>
+    <%- include('../partials/navbar.ejs') -%>
+
+        <body>
+            <div class="container">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h2>Informe os Dados do Plano de Trabalho Individual:</h2>
+                    </div>
+                    <div class="card-body">
+                        
+                            <label class="form-label">Nome do Docente: </label>
+                            <hr>
+                            <select class="form-select" name="docenteId">
+                                <option selected>Escolha...</option>
+                                <% docentes.forEach(docente=> { %>
+                                    <option value="<%= docente.id %>">
+                                        <%= docente.nome %>
+                                    </option>
+                                    <% }) %>
+                            </select>
+                            <br>
+                            <div class="row g3 mb-3">
+                                <div class="col md-6">
+                                    <label class="form-label">Ano: </label>
+                                    <select class="form-select" name="ano">
+                                        <option selected>Escolha o ano...</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2024">2024</option>
+                                    </select>
+                                </div>
+                                <div class="col md-6">
+                                    <label class="form-label">Semestre: </label>
+                                    <select class="form-select" name="semestre">
+                                        <option selected>Escolha o ano...</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row g3">
+                                <div class="col md-8">
+                                    <label class="form-label">Disciplinas: </label>
+                                    <select class="form-select" id="listaDisciplina" name="docenteId">
+                                        <option selected>Escolha...</option>
+                                        <% disciplinas.forEach(disciplina=> { %>
+                                            <option value="<%= disciplina.id %>">
+                                                <%= disciplina.nome %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div>
+                                <div class="col md-8 mt-4">
+                                    <label class="form-label"></label>
+                                    <a class="btn btn-success" type="button" id="buttonAdd"
+                                        onclick="addOnComboList()">Adicionar</a>
+                                </div>
+                            </div>
+
+                            <table class="table table-bordered mt-4" id="itensSelecionados">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Disciplina</th>
+                                        <th>CH Aula</th>
+                                        <th>CH Relógio</th>
+                                        <th>Tipo</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                            <br>
+                            <label class="form-label">Observações: </label>
+                            <textarea class="form-control" name="observacoes"
+                                placeholder="Insira as observações do seu plano" id="article"></textarea>
+                            <br>
+                            <button class="btn btn-success" onclick="listaIDELementosTabela()">Cadastrar</button>
+                        <!-- /form -->
+                    </div>
+                </div>
+            </div>
+        </body>
+
+        <%- include('../partials/footer.ejs') -%>
+
+            <script src="/tinymce/tinymce.min.js"></script>
+            <script>
+                tinymce.init({
+                    language: 'pt_BR',
+                    selector: "#article",
+                    plugins: [
+                        'advlist autolink link image lists print preview hr searchreplace wordcount fullscream insertdatetime media save table paste emoticons'
+                    ]
+                });
+            </script>
+
+            <script>
+                function addOnComboList() {
+
+                    var disciplinesLocal = [];
+                    var discipline;
+
+                    var i = 0;
+                    <% disciplinas.forEach(disciplina => { %>
+                        discipline = {
+                            "id": "<%= disciplina.id %>",
+                            "nome": "<%= disciplina.nome %>",
+                            "chaula": "<%= disciplina.cargaHorariaAula %>",
+                            "chrelogio": "<%= disciplina.cargaHorariaRelogio %>",
+                            "tipo": "<%= disciplina.tipo %>",
+                        }
+                        disciplinesLocal.unshift(discipline);
+                    <% }) %>
+
+                    var el = document.getElementById("listaDisciplina");
+                    var tabela = document.getElementById("itensSelecionados");
+
+                    disciplinesLocal.forEach(d => {
+                        if (d.id === el.value) {
+                            var row = tabela.insertRow(1);
+                            var cellId = row.insertCell(0);
+                            var cellNome = row.insertCell(1);
+                            var cellAula = row.insertCell(2);
+                            var cellRelogio = row.insertCell(3);
+                            var cellTipo = row.insertCell(4);
+                            var cellOpcao = row.insertCell(5);
+                            var deleteLink = document.createElement("a");
+                            deleteLink.setAttribute('class',"btn btn-danger");
+                            deleteLink.setAttribute('id', d.id);
+                            deleteLink.setAttribute('title',"deletar");
+                            deleteLink.setAttribute('onClick',"deletarLinhaTabela(id)");
+                            row.id = d.id;
+                            cellId.innerHTML = d.id;
+                            cellNome.innerHTML = d.nome;
+                            cellAula.innerHTML = d.chaula;
+                            cellRelogio.innerHTML = d.chrelogio;
+                            cellTipo.innerHTML = d.tipo;
+                            cellOpcao.appendChild(deleteLink);
+                        }
+                    });
+                }
+
+                function deletarLinhaTabela(id){
+                    document.getElementById(id).remove();
+                }
+
+                function listaIDELementosTabela(){
+                    var disciplinasId = [];
+                    var size = document.getElementById("itensSelecionados").rows.length;
+                    var x;
+                    for(var i = 1; i < size; i++)
+                    {
+                        x = document.getElementById("itensSelecionados").rows[i].cells[0].innerHTML;
+                        disciplinasId.unshift(x);
+                    }
+                    console.log(disciplinasId);
+                }
+            </script>

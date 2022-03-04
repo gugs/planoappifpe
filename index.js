@@ -5,16 +5,21 @@ const port = 8080;
 const Coordenacao = require("./coordenacao/Coordenacao");
 const Docente = require("./docente/Docente");
 const Disciplina = require("./disciplina/Disciplina");
+const PlanoTrabalho = require("./planotrabalho/PlanoTrabalho");
 const connection = require("./database/database");
 
 Coordenacao.hasMany(Docente);
 Docente.belongsTo(Coordenacao);
 
-Disciplina.sync({force:false});
+Docente.hasMany(PlanoTrabalho);
+PlanoTrabalho.belongsTo(Docente);
+
+PlanoTrabalho.sync({force:true});
 
 const coordenacaoController = require("./coordenacao/CoordenacaoController");
 const docenteController = require("./docente/docenteController");
 const disciplinaController = require("./disciplina/DisciplinaController");
+const PlanoTrabalhoController = require("./planotrabalho/PlanoTrabalhoController");
 //importando o modulo body parser (manipulador dos campos http)
 const bodyParser = require("body-parser");
 
@@ -28,6 +33,7 @@ app.use(express.static("public"));
 app.use("/",coordenacaoController);
 app.use("/",docenteController);
 app.use("/",disciplinaController);
+app.use("/",PlanoTrabalhoController);
 
 app.get("/", (req,res)=>{
     res.render("index");
