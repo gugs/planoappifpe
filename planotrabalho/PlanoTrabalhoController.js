@@ -20,7 +20,7 @@ router.post("/planotrabalho/create", (req, res) => {
     var semestre = req.body.semestre;
     var grupo = req.body.grupo;
     var observacoes = req.body.observacoes;
-    
+    var selecaodisciplinas = req.body.selecaodisciplinas;
 
     PlanoTrabalho.create({
         ano: ano,

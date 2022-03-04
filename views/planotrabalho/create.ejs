@@ -54,7 +54,7 @@
                             <div class="row g3">
                                 <div class="col md-8">
                                     <label class="form-label">Disciplinas: </label>
-                                    <select class="form-select" id="listaDisciplina" name="disciplinaId">
+                                    <select class="form-select" id="listaDisciplina">
                                         <option selected>Escolha...</option>
                                         <% disciplinas.forEach(disciplina=> { %>
                                             <option value="<%= disciplina.id %>">
@@ -82,7 +82,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+
                                 </tbody>
                             </table>
                             <br>
@@ -90,7 +90,7 @@
                             <textarea class="form-control" name="observacoes"
                                 placeholder="Insira as observações do seu plano" id="article"></textarea>
                             <br>
-                            <button class="btn btn-success" onclick="listaIDELementosTabela()">Cadastrar</button>
+                            <button class="btn btn-success">Cadastrar</button>
                         </form>
                     </div>
                 </div>
@@ -115,60 +115,87 @@
 
                     var disciplinesLocal = [];
                     var discipline;
+                    //var i = 0;
 
-                    var i = 0;
                     <% disciplinas.forEach(disciplina => { %>
                         discipline = {
                             "id": "<%= disciplina.id %>",
-                            "nome": "<%= disciplina.nome %>",
-                            "chaula": "<%= disciplina.cargaHorariaAula %>",
-                            "chrelogio": "<%= disciplina.cargaHorariaRelogio %>",
-                            "tipo": "<%= disciplina.tipo %>",
+                                "nome": "<%= disciplina.nome %>",
+                                    "chaula": "<%= disciplina.cargaHorariaAula %>",
+                                        "chrelogio": "<%= disciplina.cargaHorariaRelogio %>",
+                                            "tipo": "<%= disciplina.tipo %>",
                         }
                         disciplinesLocal.unshift(discipline);
                     <% }) %>
 
                     var el = document.getElementById("listaDisciplina");
-                    var tabela = document.getElementById("itensSelecionados");
+                    var tabela = document.getElementById("itensSelecionados").getElementsByTagName('tbody')[0];
 
-                    disciplinesLocal.forEach(d => {
-                        if (d.id === el.value) {
-                            var row = tabela.insertRow(1);
-                            var cellId = row.insertCell(0);
-                            var cellNome = row.insertCell(1);
-                            var cellAula = row.insertCell(2);
-                            var cellRelogio = row.insertCell(3);
-                            var cellTipo = row.insertCell(4);
-                            var cellOpcao = row.insertCell(5);
-                            var deleteLink = document.createElement("a");
-                            deleteLink.setAttribute('class',"btn btn-danger");
-                            deleteLink.setAttribute('id', d.id);
-                            deleteLink.setAttribute('title',"deletar");
-                            deleteLink.setAttribute('onClick',"deletarLinhaTabela(id)");
-                            row.id = d.id;
-                            cellId.innerHTML = d.id;
-                            cellNome.innerHTML = d.nome;
-                            cellAula.innerHTML = d.chaula;
-                            cellRelogio.innerHTML = d.chrelogio;
-                            cellTipo.innerHTML = d.tipo;
-                            cellOpcao.appendChild(deleteLink);
-                        }
-                    });
+                    if (!containItemTabela(el.value)) {
+                        disciplinesLocal.forEach(d => {
+                            if (d.id === el.value) {
+                                var row = tabela.insertRow(0);
+                                row.setAttribute("name", "selecaodisciplinas");
+                                row.setAttribute("value", d.id);
+                                row.setAttribute("type", "input");
+                                var cellId = row.insertCell(0);
+                                var cellNome = row.insertCell(1);
+                                var cellAula = row.insertCell(2);
+                                var cellRelogio = row.insertCell(3);
+                                var cellTipo = row.insertCell(4);
+                                var cellOpcao = row.insertCell(5);
+                                var cellHidden = row.insertCell(6);
+                                var deleteLink = document.createElement("a");
+                                var input = document.createElement("input");
+                                input.setAttribute("name", "selecaodisciplinas");
+                                input.setAttribute("value", d.id);
+                                input.setAttribute("type", "hidden");
+                                deleteLink.setAttribute('class', "btn btn-danger");
+                                deleteLink.setAttribute('id', d.id);
+                                deleteLink.setAttribute('title', "deletar");
+                                deleteLink.setAttribute('onClick', "deletarLinhaTabela(id)");
+                                row.id = d.id * 10;
+                                cellId.innerHTML = d.id;
+                                cellNome.innerHTML = d.nome;
+                                cellAula.innerHTML = d.chaula;
+                                cellRelogio.innerHTML = d.chrelogio;
+                                cellTipo.innerHTML = d.tipo;
+                                cellOpcao.appendChild(deleteLink);
+                                cellHidden.appendChild(input);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        alert("Item já adicionado na lista");
+                    }
                 }
 
-                function deletarLinhaTabela(id){
+                function deletarLinhaTabela(id) {
                     document.getElementById(id).remove();
+                    document.getElementById(id * 10).remove();
                 }
 
-                function listaIDELementosTabela(){
+                function listaIDELementosTabela() {
                     var disciplinasId = [];
                     var size = document.getElementById("itensSelecionados").rows.length;
                     var x;
-                    for(var i = 1; i < size; i++)
-                    {
+                    for (var i = 1; i < size; i++) {
                         x = document.getElementById("itensSelecionados").rows[i].cells[0].innerHTML;
                         disciplinasId.unshift(x);
                     }
                     console.log(disciplinasId);
                 }
+
+                function containItemTabela(a) {
+                    var disciplinasId = [];
+                    var size = document.getElementById("itensSelecionados").rows.length;
+                    var x;
+                    for (var i = 1; i < size; i++) {
+                        x = document.getElementById("itensSelecionados").rows[i].cells[0].innerHTML;
+                        disciplinasId.unshift(x);
+                    }
+                    return disciplinasId.includes(a);
+                }
+
             </script>

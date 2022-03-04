@@ -3,6 +3,12 @@ const Sequelize = require("sequelize");
 const connection = require("../database/database");
 
 const Disciplina = connection.define('disciplinas',{
+    id:{
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
     nome:{
         type: Sequelize.STRING,
         allowNull: false

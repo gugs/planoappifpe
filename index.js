@@ -15,7 +15,7 @@ Docente.belongsTo(Coordenacao);
 Docente.hasMany(PlanoTrabalho);
 PlanoTrabalho.belongsTo(Docente);
 
-connection.sync({force:true});
+connection.sync({force:false});
 
 const coordenacaoController = require("./coordenacao/CoordenacaoController");
 const docenteController = require("./docente/docenteController");
