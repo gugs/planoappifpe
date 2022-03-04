@@ -11,10 +11,11 @@ const connection = require("./database/database");
 Coordenacao.hasMany(Docente);
 Docente.belongsTo(Coordenacao);
 
+
 Docente.hasMany(PlanoTrabalho);
 PlanoTrabalho.belongsTo(Docente);
 
-PlanoTrabalho.sync({force:true});
+connection.sync({force:true});
 
 const coordenacaoController = require("./coordenacao/CoordenacaoController");
 const docenteController = require("./docente/docenteController");

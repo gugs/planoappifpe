@@ -8,11 +8,11 @@
                         <h2>Informe os Dados do Plano de Trabalho Individual:</h2>
                     </div>
                     <div class="card-body">
-                        
+                        <form action="/planotrabalho/create" method="post">
                             <label class="form-label">Nome do Docente: </label>
                             <hr>
                             <select class="form-select" name="docenteId">
-                                <option selected>Escolha...</option>
+                                <option selected>Escolha o docente</option>
                                 <% docentes.forEach(docente=> { %>
                                     <option value="<%= docente.id %>">
                                         <%= docente.nome %>
@@ -21,7 +21,7 @@
                             </select>
                             <br>
                             <div class="row g3 mb-3">
-                                <div class="col md-6">
+                                <div class="col md-4">
                                     <label class="form-label">Ano: </label>
                                     <select class="form-select" name="ano">
                                         <option selected>Escolha o ano...</option>
@@ -30,7 +30,7 @@
                                         <option value="2024">2024</option>
                                     </select>
                                 </div>
-                                <div class="col md-6">
+                                <div class="col md-4">
                                     <label class="form-label">Semestre: </label>
                                     <select class="form-select" name="semestre">
                                         <option selected>Escolha o ano...</option>
@@ -38,11 +38,23 @@
                                         <option value="2">2</option>
                                     </select>
                                 </div>
+                                <div class="col md-4">
+                                    <label class="form-label">Grupo: </label>
+                                    <select class="form-select" name="grupo">
+                                        <option selected>Escolha o grupo...</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="row g3">
                                 <div class="col md-8">
                                     <label class="form-label">Disciplinas: </label>
-                                    <select class="form-select" id="listaDisciplina" name="docenteId">
+                                    <select class="form-select" id="listaDisciplina" name="disciplinaId">
                                         <option selected>Escolha...</option>
                                         <% disciplinas.forEach(disciplina=> { %>
                                             <option value="<%= disciplina.id %>">
@@ -79,7 +91,7 @@
                                 placeholder="Insira as observações do seu plano" id="article"></textarea>
                             <br>
                             <button class="btn btn-success" onclick="listaIDELementosTabela()">Cadastrar</button>
-                        <!-- /form -->
+                        </form>
                     </div>
                 </div>
             </div>

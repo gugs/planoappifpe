@@ -15,14 +15,21 @@ router.get("/planotrabalho/create", (req, res) => {
 });
 
 router.post("/planotrabalho/create", (req, res) => {
-    var nome = req.body.nome;
-    var slug = slugify(nome);
+    var docenteId = req.body.docenteId;
+    var ano = req.body.ano;
+    var semestre = req.body.semestre;
+    var grupo = req.body.grupo;
+    var observacoes = req.body.observacoes;
+    
 
     PlanoTrabalho.create({
-        nome: nome,
-        slug: slug
+        ano: ano,
+        semestre: semestre,
+        grupo: grupo,
+        observacoes: observacoes,
+        docenteId: docenteId,
     }).then(() => {
-        res.redirect("planotrabalho/index");
+        res.redirect("/planotrabalho/create");
     });
 });
 

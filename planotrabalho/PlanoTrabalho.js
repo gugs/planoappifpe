@@ -2,7 +2,15 @@ const Sequelize = require("sequelize");
 
 const connection = require("../database/database");
 
+const Docente = require("../docente/Docente")
+
 const PlanoTrabalho = connection.define('planotrabalhos',{
+    id:{
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
     ano:{
         type: Sequelize.INTEGER,
         allowNull: false
@@ -17,6 +25,12 @@ const PlanoTrabalho = connection.define('planotrabalhos',{
     },
     observacoes:{
         type: Sequelize.TEXT
+    },
+    docenteId:{ 
+        type: Sequelize.INTEGER, 
+        references: {
+            model: Docente, 
+            referencesKey: "id" }
     }
 });
 
