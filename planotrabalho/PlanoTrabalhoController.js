@@ -21,7 +21,6 @@ router.get("/planotrabalho/create", (req, res) => {
                     var planoNovo = {
                         id: 0
                     }
-
                     res.render('planotrabalho/create', { docentes: docentes, disciplinas: disciplinas, plano: planoNovo });
                 }
 
@@ -30,7 +29,16 @@ router.get("/planotrabalho/create", (req, res) => {
     });
 });
 
+router.get("/planotrabalho/index", (req,res)=>{
+    Docente.findOne({where: {id: 2}}).then(docente=>{
+        PlanoTrabalho.findAll({where:{docenteId: docente.id}}).then(planos =>{
+            res.render('planotrabalho/index',{planos:planos, docente:docente});
+        });
+    });
+});
+
 router.post("/planotrabalho/create", (req, res) => {
+    var selecaodisciplinas = [];
     var docenteId = req.body.docenteId;
     var ano = req.body.ano;
     var semestre = req.body.semestre;
@@ -38,7 +46,6 @@ router.post("/planotrabalho/create", (req, res) => {
     var observacoes = req.body.observacoes;
     var selecaodisciplinas = req.body.selecaodisciplinas;
     var planoId = req.body.planoId;
-
 
     try {
         PlanoTrabalho.create({
@@ -49,14 +56,25 @@ router.post("/planotrabalho/create", (req, res) => {
             observacoes: observacoes,
         }).then(() => {
             planoId++;
-            selecaodisciplinas.forEach(d => {
-                console.log(parseInt(d))
+            if(Array.isArray(selecaodisciplinas))
+            {
+                selecaodisciplinas.forEach(d => {
+                    console.log(parseInt(d))
+                    PlanoDisciplina.create({
+                        planotrabalhoId: (planoId),
+                        disciplinaId: parseInt(d),
+                        ano: ano
+                    });
+                });
+            }
+            else
+            {
                 PlanoDisciplina.create({
                     planotrabalhoId: (planoId),
                     disciplinaId: parseInt(d),
                     ano: ano
                 });
-            });
+            }
         });
     } catch (err) {
         console.log(err)
