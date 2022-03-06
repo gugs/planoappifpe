@@ -11,19 +11,21 @@ const { type } = require("express/lib/response");
 const docenteAuth = require("../middleware/docenteAuth");
 
 router.get("/planotrabalho/create", docenteAuth,(req, res) => {
-    Docente.findAll().then(docentes => {
+    var sessionId = req.session.docente.id;
+
+    Docente.findOne({where:{id: sessionId}}).then(docente => {
         Disciplina.findAll().then(disciplinas => {
             PlanoTrabalho.findOne({
                 order: [['id', 'DESC']],
             }).then(plano => {
                 if (plano != undefined) {
-                    res.render('planotrabalho/create', { docentes: docentes, disciplinas: disciplinas, plano: plano });
+                    res.render('planotrabalho/create', { docente: docente, disciplinas: disciplinas, plano: plano });
                 }
                 else {
                     var planoNovo = {
                         id: 0
                     }
-                    res.render('planotrabalho/create', { docentes: docentes, disciplinas: disciplinas, plano: planoNovo });
+                    res.render('planotrabalho/create', { docente: docente, disciplinas: disciplinas, plano: planoNovo });
                 }
 
             });
@@ -31,12 +33,18 @@ router.get("/planotrabalho/create", docenteAuth,(req, res) => {
     });
 });
 
-router.get("/planotrabalho/index", (req,res)=>{
-    Docente.findOne({where: {id: 2}}).then(docente=>{
-        PlanoTrabalho.findAll({where:{docenteId: docente.id}}).then(planos =>{
-            res.render('planotrabalho/index',{planos:planos, docente:docente});
+
+router.get("/planotrabalho/index", docenteAuth,(req,res)=>{
+    var sessionId = req.session.docente.id;
+    sessionId = parseInt(sessionId);
+    if(sessionId != undefined)
+    {
+        Docente.findOne({where: {id: sessionId}}).then(docente=>{
+            PlanoTrabalho.findAll({where:{docenteId: docente.id}}).then(planos =>{
+                res.render('planotrabalho/index',{planos:planos, docente:docente});
+            });
         });
-    });
+    }
 });
 
 router.post("/planotrabalho/create", (req, res) => {
@@ -68,6 +76,7 @@ router.post("/planotrabalho/create", (req, res) => {
                         ano: ano
                     });
                 });
+                res.redirect("/planotrabalho/index");
             }
             else
             {
@@ -76,6 +85,7 @@ router.post("/planotrabalho/create", (req, res) => {
                     disciplinaId: parseInt(d),
                     ano: ano
                 });
+                res.redirect("/planotrabalho/index");
             }
         });
     } catch (err) {

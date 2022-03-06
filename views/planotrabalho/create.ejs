@@ -12,14 +12,8 @@
                             <input type="hidden" value="<%= plano.id %>" name="planoId">
                             <label class="form-label">Nome do Docente: </label>
                             <hr>
-                            <select class="form-select" name="docenteId">
-                                <option selected>Escolha o docente</option>
-                                <% docentes.forEach(docente=> { %>
-                                    <option value="<%= docente.id %>">
-                                        <%= docente.nome %>
-                                    </option>
-                                    <% }) %>
-                            </select>
+                            <input class="form-control" type="hidden" name="docenteId" value="<%= docente.id %>" readonly>
+                            <input class="form-control" type="text" value="<%= docente.nome %>" readonly>
                             <br>
                             <div class="row g3 mb-3">
                                 <div class="col md-4">

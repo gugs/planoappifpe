@@ -75,7 +75,7 @@ app.post("/authenticate", (req,res)=>{
                     email: docente.email,
                     admin: docente.admin
                 }
-                res.redirect('/');
+                res.redirect('/planotrabalho/index');
             }
             else
             {
@@ -88,6 +88,11 @@ app.post("/authenticate", (req,res)=>{
     }).catch(err=>{
         console.log(err);
     });
+});
+
+app.get("/logout", (req,res)=>{
+    req.session = undefined;
+    res.redirect("login");
 });
 
 app.listen(port,()=>{
