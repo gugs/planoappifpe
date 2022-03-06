@@ -27,6 +27,7 @@ router.post("/docente/create",(req,res)=>{
     var email = req.body.email;
     var regime = req.body.regime;
     var coordenacaoId = req.body.coordenacaoId;
+    var admin = req.body.admin;
 
     var salt = bcrypt.genSaltSync(10);
 
@@ -40,7 +41,8 @@ router.post("/docente/create",(req,res)=>{
             email: email,
             regime:regime,
             coordenacaoId: coordenacaoId,
-            senha: senha2
+            senha: senha2,
+            admin: admin
         }).then(()=>{
             res.redirect("/")
         });

@@ -8,7 +8,9 @@ const Disciplina = require("../disciplina/Disciplina");
 const PlanoDisciplina = require("../planodisciplina/PlanoDisciplina");
 const { type } = require("express/lib/response");
 
-router.get("/planotrabalho/create", (req, res) => {
+const docenteAuth = require("../middleware/docenteAuth");
+
+router.get("/planotrabalho/create", docenteAuth,(req, res) => {
     Docente.findAll().then(docentes => {
         Disciplina.findAll().then(disciplinas => {
             PlanoTrabalho.findOne({

@@ -29,6 +29,11 @@ const Docente = connection.define('docente', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    admin:
+    {
+        type: Sequelize.SMALLINT,
+        allowNull: false
+    }
 });
 
 module.exports = Docente;

@@ -53,12 +53,6 @@ app.get("/", (req,res)=>{
 });
 
 
-app.get("/session", (req,res) =>{
-    req.session.id = 1;
-    req.session.siape = "299"
-    req.session.admin = true;
-});
-
 app.get("/session-read", (req,res) =>{
     
 });
@@ -78,9 +72,10 @@ app.post("/authenticate", (req,res)=>{
             if(correct){
                 req.session.docente = {
                     id: docente.id,
-                    email: docente.email
+                    email: docente.email,
+                    admin: docente.admin
                 }
-                res.json(req.session.docente);
+                res.redirect('/');
             }
             else
             {

@@ -2,9 +2,11 @@ const express = require("express");
 const router = express();
 const slugify = require("slugify");
 
+const adminAuth = require("../middleware/adminAuth");
+
 const Coordenacao = require("./Coordenacao");
 
-router.get("/admin/coordenacao/create",(req,res)=>{
+router.get("/admin/coordenacao/create", adminAuth, (req,res)=>{
     res.render("admin/coordenacao/create");
 });
 
