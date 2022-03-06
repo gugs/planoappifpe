@@ -20,7 +20,7 @@ PlanoTrabalho.belongsTo(Docente);
 PlanoTrabalho.belongsToMany(Disciplina, { through: PlanoDisciplina});
 Disciplina.belongsToMany(PlanoTrabalho, { through: PlanoDisciplina});
 
-connection.sync({force:false});
+connection.sync({force:true});
 
 const coordenacaoController = require("./coordenacao/CoordenacaoController");
 const docenteController = require("./docente/docenteController");

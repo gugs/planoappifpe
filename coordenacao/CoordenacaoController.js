@@ -10,7 +10,7 @@ router.get("/admin/coordenacao/create", adminAuth,(req,res)=>{
     res.render("admin/coordenacao/create");
 });
 
-router.post("/admin/coordenacao/create",adminAuth,(req,res)=>{
+router.post("/admin/coordenacao/create", adminAuth,(req,res)=>{
     var nome = req.body.nome;
     var slug = slugify(nome);
 
@@ -22,7 +22,7 @@ router.post("/admin/coordenacao/create",adminAuth,(req,res)=>{
     });
 });
 
-router.get("/admin/coordenacao/index", (req,res)=>{
+router.get("/admin/coordenacao/index", adminAuth,(req,res)=>{
 
     Coordenacao.findAll().then(coordenacoes => {
         res.render("admin/coordenacao/index", {coordenacoes: coordenacoes});

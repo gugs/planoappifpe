@@ -47,8 +47,12 @@
                                                 </th>
                                                 <th> Pendente </th>
                                                 <th>
-                                                    <a class=" btn btn-warning" href="">Editar</a>
-                                                    <a class=" btn btn-danger" href="">Deletar</a>
+                                                    <a class=" btn btn-warning btn-sm"
+                                                        href="/planotrabalho/edit/<%= plano.id %>">Editar</a>
+                                                    <form action="/planotrabalho/delete" method="post" onsubmit="confirmarDelecao(event,this)">
+                                                        <input type="hidden" name="id" value="<%= plano.id %>">
+                                                        <button class=" btn btn-danger btn-sm m-1">Deletar</button>
+                                                    </form>
                                                 </th>
                                             </tr>
                                             <% }) %>
@@ -58,3 +62,12 @@
                         </body>
 
                         <%- include('../partials/footer.ejs') -%>
+
+
+                            <script>
+                                function confirmarDelecao(event, form) {
+                                    event.preventDefault();
+                                    var decision = confirm("Você deseja deletar o registro?");
+                                    if (decision) { form.submit(); }
+                                }
+                            </script>

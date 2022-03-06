@@ -117,17 +117,17 @@
 
                                     var disciplinesLocal = [];
                                     var discipline;
-                    //var i = 0;
+                                    
 
                     <% disciplinas.forEach(disciplina => { %>
-                                        discipline = {
-                                            "id": "<%= disciplina.id %>",
-                                                "nome": "<%= disciplina.nome %>",
-                                                    "chaula": "<%= disciplina.cargaHorariaAula %>",
-                                                        "chrelogio": "<%= disciplina.cargaHorariaRelogio %>",
-                                                            "tipo": "<%= disciplina.tipo %>",
+                        discipline = {
+                            "id": "<%= disciplina.id %>",
+                                "nome": "<%= disciplina.nome %>",
+                                    "chaula": "<%= disciplina.cargaHorariaAula %>",
+                                        "chrelogio": "<%= disciplina.cargaHorariaRelogio %>",
+                                            "tipo": "<%= disciplina.tipo %>",
                         }
-                                        disciplinesLocal.unshift(discipline);
+                        disciplinesLocal.unshift(discipline);
                     <% }) %>
 
                     var el = document.getElementById("listaDisciplina");

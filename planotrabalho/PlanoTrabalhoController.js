@@ -33,8 +33,29 @@ router.get("/planotrabalho/create", docenteAuth,(req, res) => {
     });
 });
 
+router.get("/planotrabalho/edit/:id", docenteAuth,(req, res) => {
+    var sessionId = req.session.docente.id;
+    var planoId = req.params.id;
 
-router.get("/planotrabalho/index", docenteAuth,(req,res)=>{
+
+    Disciplina.findAll().then(disciplinas=>{
+        PlanoTrabalho.findOne({where:{id:planoId}}).then(plano=>{
+            Docente.findOne({where:{id:plano.docenteId}}).then(docente=>{
+                if(sessionId == docente.id)
+                {
+                    PlanoDisciplina.findAll({where:{planotrabalhoId:plano.id}}).then(planodisciplinas=>{
+                        res.render('planotrabalho/edit',{plano:plano, docente:docente, disciplinas:disciplinas, planodisciplinas:planodisciplinas});
+                    });
+                }
+                else
+                    res.redirect('/logout');
+            });
+        });
+    });    
+});
+
+
+router.get("/planotrabalho/index",docenteAuth,(req,res)=>{
     var sessionId = req.session.docente.id;
     sessionId = parseInt(sessionId);
     if(sessionId != undefined)
@@ -47,7 +68,23 @@ router.get("/planotrabalho/index", docenteAuth,(req,res)=>{
     }
 });
 
-router.post("/planotrabalho/create", (req, res) => {
+router.post("/planotrabalho/delete", docenteAuth,(req,res)=>{
+    var sessionId = req.session.docente.id;
+    var idPlano = req.body.id;
+
+    PlanoTrabalho.findOne({where: {id:idPlano} }).then(plano=>{
+        if(plano.docenteId==sessionId)
+        {
+            PlanoDisciplina.destroy({where:{planotrabalhoId:plano.id}}).then(()=>{
+                PlanoTrabalho.destroy({where:{id:plano.id}}).then(()=>{
+                    res.redirect("/planotrabalho/index");
+                });
+            });
+        } 
+    });
+});
+
+router.post("/planotrabalho/create",docenteAuth, (req, res) => {
     var selecaodisciplinas = [];
     var docenteId = req.body.docenteId;
     var ano = req.body.ano;
@@ -92,18 +129,5 @@ router.post("/planotrabalho/create", (req, res) => {
         console.log(err)
     }
 });
-
-router.get("/planotrabalho/index", (req, res) => {
-    PlanoTrabalho.findAll().then(planos => {
-        res.render("planotrabalho/index", { planos: planos });
-    });
-});
-
-async function getLastId() {
-    const id = await PlanoTrabalho.findOne({ order: [['id', 'DESC']], });
-    id.then((ids) => {
-        return ids;
-    });
-}
 
 module.exports = router;

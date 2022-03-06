@@ -5,7 +5,7 @@ const adminAuth = require("../middleware/adminAuth");
 
 const Disciplina = require("./Disciplina");
 
-router.get("/admin/disciplina/create",adminAuth,(req,res)=>{
+router.get("/admin/disciplina/create", adminAuth,(req,res)=>{
     res.render("admin/disciplina/create");
 });
 
@@ -27,7 +27,7 @@ router.post("/admin/disciplina/create", adminAuth, (req,res)=>{
     });
 });
 
-router.get("/admin/disciplina/index", adminAuth,(req,res)=>{
+router.get("/admin/disciplina/index",adminAuth,(req,res)=>{
 
     Disciplina.findAll().then(disciplinas => {
         res.render("admin/disciplina/index", {disciplinas: disciplinas});

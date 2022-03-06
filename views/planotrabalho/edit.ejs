@@ -1,7 +1,7 @@
 <%- include('../partials/header.ejs') -%>
     <%- include('../partials/navbar.ejs') -%>
 
-        <body>
+        <body onload="retrieveOnComboList()">
             <div class="container">
                 <div class="card mt-4">
                     <div class="card-header">
@@ -12,14 +12,17 @@
                             <input type="hidden" value="<%= plano.id %>" name="planoId">
                             <label class="form-label">Nome do Docente: </label>
                             <hr>
-                            <input class="form-control" type="hidden" name="docenteId" value="<%= docente.id %>" readonly>
+                            <input class="form-control" type="hidden" name="docenteId" value="<%= docente.id %>"
+                                readonly>
                             <input class="form-control" type="text" value="<%= docente.nome %>" readonly>
                             <br>
                             <div class="row g3 mb-3">
                                 <div class="col md-4">
                                     <label class="form-label">Ano: </label>
                                     <select class="form-select" name="ano">
-                                        <option selected>Escolha o ano...</option>
+                                        <option selected>
+                                            <%= plano.ano %>
+                                        </option>
                                         <option value="2022">2022</option>
                                         <option value="2023">2023</option>
                                         <option value="2024">2024</option>
@@ -28,7 +31,9 @@
                                 <div class="col md-4">
                                     <label class="form-label">Semestre: </label>
                                     <select class="form-select" name="semestre">
-                                        <option selected>Escolha o ano...</option>
+                                        <option selected>
+                                            <%= plano.semestre %>
+                                        </option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                     </select>
@@ -36,7 +41,9 @@
                                 <div class="col md-4">
                                     <label class="form-label">Grupo: </label>
                                     <select class="form-select" name="grupo">
-                                        <option selected>Escolha o grupo...</option>
+                                        <option selected>
+                                            <%= plano.grupo %>
+                                        </option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -83,13 +90,15 @@
                             <br>
                             <label class="form-label">Observações: </label>
                             <textarea class="form-control" name="observacoes"
-                                placeholder="Insira as observações do seu plano" id="article"></textarea>
+                                placeholder="Insira as observações do seu plano"
+                                id="article"><%- plano.observacoes %></textarea>
                             <br>
                             <button class="btn btn-success">Cadastrar</button>
                         </form>
                     </div>
                 </div>
             </div>
+
         </body>
 
         <%- include('../partials/footer.ejs') -%>
@@ -110,7 +119,6 @@
 
                     var disciplinesLocal = [];
                     var discipline;
-                    //var i = 0;
 
                     <% disciplinas.forEach(disciplina => { %>
                         discipline = {
@@ -160,10 +168,10 @@
                             }
                         });
                     }
-                    else
-                    {
+                    else {
                         alert("Item já adicionado na lista");
                     }
+
                 }
 
                 function deletarLinhaTabela(id) {
@@ -192,5 +200,74 @@
                     }
                     return disciplinasId.includes(a);
                 }
+
+                function retrieveOnComboList() {
+
+                    var disciplinesLocal = [];
+                    var discipline;
+
+                    console.log(<%= disciplinas.length %>);
+                    console.log(<%= planodisciplinas.length %>);
+
+                    
+                    
+                        <% planodisciplinas.forEach(planodisciplina => { %>
+                        <% disciplinas.forEach(disciplina => { %>
+                        <% if (planodisciplina.disciplinaId === disciplina.id) { %>
+                            discipline = {
+                                "id": "<%= disciplina.id %>",
+                                    "nome": "<%= disciplina.nome %>",
+                                        "chaula": "<%= disciplina.cargaHorariaAula %>",
+                                            "chrelogio": "<%= disciplina.cargaHorariaRelogio %>",
+                                                "tipo": "<%= disciplina.tipo %>",
+                                            }
+                            disciplinesLocal.unshift(discipline);
+                            console.log(discipline);
+                        <% } %>
+                    <% }); %>
+                    <% }); %>
+                    
+                    var tabela = document.getElementById("itensSelecionados").getElementsByTagName('tbody')[0];
+
+                    disciplinesLocal.forEach(d => {
+                        var row = tabela.insertRow(0);
+                        row.setAttribute("name", "selecaodisciplinas");
+                        row.setAttribute("value", d.id);
+                        row.setAttribute("type", "input");
+                        var cellId = row.insertCell(0);
+                        var cellNome = row.insertCell(1);
+                        var cellAula = row.insertCell(2);
+                        var cellRelogio = row.insertCell(3);
+                        var cellTipo = row.insertCell(4);
+                        var cellOpcao = row.insertCell(5);
+                        var cellHidden = row.insertCell(6);
+                        var deleteLink = document.createElement("a");
+                        var input = document.createElement("input");
+                        input.setAttribute("name", "selecaodisciplinas");
+                        input.setAttribute("value", d.id);
+                        input.setAttribute("type", "hidden");
+                        deleteLink.setAttribute('class', "btn btn-danger");
+                        deleteLink.setAttribute('id', d.id);
+                        deleteLink.setAttribute('title', "deletar");
+                        deleteLink.setAttribute('onClick', "deletarLinhaTabela(id)");
+                        row.id = d.id * 10;
+                        cellId.innerHTML = d.id;
+                        cellNome.innerHTML = d.nome;
+                        cellAula.innerHTML = d.chaula;
+                        cellRelogio.innerHTML = d.chrelogio;
+                        cellTipo.innerHTML = d.tipo;
+                        cellOpcao.appendChild(deleteLink);
+                        cellHidden.appendChild(input);
+
+                    });
+                }
+
+
+                function confirmarDelecao(event, form) {
+                    event.preventDefault();
+                    var decision = confirm("Você deseja deletar o registro?");
+                    if (decision) { form.submit(); }
+                }
+
 
             </script>
