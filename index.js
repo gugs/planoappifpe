@@ -49,7 +49,7 @@ app.use("/",disciplinaController);
 app.use("/",PlanoTrabalhoController);
 
 app.get("/", (req,res)=>{
-    res.render("index");
+    res.render("login/login");
 });
 
 

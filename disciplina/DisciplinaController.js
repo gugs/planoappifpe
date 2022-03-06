@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express();
 const slugify = require("slugify");
+const adminAuth = require("../middleware/adminAuth");
 
 const Disciplina = require("./Disciplina");
 
@@ -8,7 +9,7 @@ router.get("/admin/disciplina/create",(req,res)=>{
     res.render("admin/disciplina/create");
 });
 
-router.post("/admin/disciplina/create",(req,res)=>{
+router.post("/admin/disciplina/create", adminAuth, (req,res)=>{
     var nome = req.body.nome;
     var cargaHorariaAula = req.body.cargahorariaaula;
     var cargaHorariaRelogio = req.body.cargahorariarelogio;

@@ -2,11 +2,14 @@ const express = require("express");
 const router = express();
 const slugify = require("slugify");
 const bcrypt = require('bcryptjs');
+const flash = require('express-flash');
+const cookieParser = require('cookie-parser')
 
 const Docente = require("./Docente");
 const Coordenacao = require("../coordenacao/Coordenacao");
+const adminAuth = require("../middleware/adminAuth");
 
-router.get("/admin/docente/create",(req,res)=>{
+router.get("/admin/docente/create", adminAuth, (req,res)=>{
     Coordenacao.findAll().then(coordenacoes=>{
         res.render("admin/docente/create",{coordenacoes:coordenacoes});
     });    
