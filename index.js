@@ -91,7 +91,7 @@ app.post("/authenticate", (req,res)=>{
 });
 
 app.get("/logout", (req,res)=>{
-    req.session = undefined;
+    req.session.docente = undefined;
     res.redirect("login");
 });
 

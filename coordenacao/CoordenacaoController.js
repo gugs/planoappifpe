@@ -6,11 +6,11 @@ const adminAuth = require("../middleware/adminAuth");
 
 const Coordenacao = require("./Coordenacao");
 
-router.get("/admin/coordenacao/create", adminAuth, (req,res)=>{
+router.get("/admin/coordenacao/create", adminAuth,(req,res)=>{
     res.render("admin/coordenacao/create");
 });
 
-router.post("/admin/coordenacao/create",(req,res)=>{
+router.post("/admin/coordenacao/create",adminAuth,(req,res)=>{
     var nome = req.body.nome;
     var slug = slugify(nome);
 

@@ -15,13 +15,13 @@ router.get("/admin/docente/create", adminAuth, (req,res)=>{
     });    
 });
 
-router.get("/admin/docente/index",(req,res)=>{
+router.get("/admin/docente/index", adminAuth,(req,res)=>{
     Docente.findAll({include:{model:Coordenacao, as: "coordenacao"}}).then(docentes=>{
         res.render("admin/docente/index",{docentes:docentes});
     });    
 });
 
-router.post("/docente/create",(req,res)=>{
+router.post("/docente/create", adminAuth, (req,res)=>{
 
     var senha1 = req.body.senha1;
     var senha2 = req.body.senha2;

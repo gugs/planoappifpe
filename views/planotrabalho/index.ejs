@@ -1,45 +1,60 @@
 <%- include('../partials/header.ejs') -%>
-    <%- include('../partials/navbar.ejs') -%>
+    <% if(docente.admin===1) {%>
+        <%- include('../partials/navbaradmin.ejs') -%>
+            <%} else{%>
+                <%- include('../partials/navbar.ejs') -%>
+                    <% } %>
 
-        <body>
-            <div class="container">
-                <br>
-                <h2>Planos Cadastrados:</h2>
-                <hr>
-                <a class="btn btn-success" href="/planotrabalho/create">Cadastrar Plano</a>
-                <hr>
-                <h4>Planos do Docente: <%= docente.nome %> - SIAPE: <%= docente.siape%></h4>
-                <hr>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>SIAPE</th>
-                            <th>Ano do Plano</th>
-                            <th>Semestre</th>
-                            <th>Status</th>
-                            <th>Opções</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% planos.forEach(plano => { %>
-                            <tr>
-                                <th> <%= plano.id %></th>
-                                <th> <%= docente.nome %> </th>
-                                <th> <%= docente.siape %> </th>
-                                <th> <%= plano.ano %></th>
-                                <th> <%= plano.semestre %></th>
-                                <th> Pendente </th>
-                                <th>
-                                    <a class=" btn btn-warning" href="">Editar</a>
-                                    <a class=" btn btn-danger" href="">Deletar</a>
-                                </th>
-                            </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
-            </div>
-        </body>
+                        <body>
+                            <div class="container">
+                                <br>
+                                <h2>Planos Cadastrados:</h2>
+                                <hr>
+                                <a class="btn btn-success" href="/planotrabalho/create">Cadastrar Plano</a>
+                                <hr>
+                                <h4>Planos do Docente: <%= docente.nome %> - SIAPE: <%= docente.siape%>
+                                </h4>
+                                <hr>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nome</th>
+                                            <th>SIAPE</th>
+                                            <th>Ano do Plano</th>
+                                            <th>Semestre</th>
+                                            <th>Status</th>
+                                            <th>Opções</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% planos.forEach(plano=> { %>
+                                            <tr>
+                                                <th>
+                                                    <%= plano.id %>
+                                                </th>
+                                                <th>
+                                                    <%= docente.nome %>
+                                                </th>
+                                                <th>
+                                                    <%= docente.siape %>
+                                                </th>
+                                                <th>
+                                                    <%= plano.ano %>
+                                                </th>
+                                                <th>
+                                                    <%= plano.semestre %>
+                                                </th>
+                                                <th> Pendente </th>
+                                                <th>
+                                                    <a class=" btn btn-warning" href="">Editar</a>
+                                                    <a class=" btn btn-danger" href="">Deletar</a>
+                                                </th>
+                                            </tr>
+                                            <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </body>
 
-        <%- include('../partials/footer.ejs') -%>
+                        <%- include('../partials/footer.ejs') -%>
