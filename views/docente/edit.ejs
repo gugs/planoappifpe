@@ -7,9 +7,10 @@
                         <h2>Informe os dados do docente:</h2>
                     </div>
                     <div class="card-body">
-                        <form action="/docente/create" method="post">
+                        <form action="/docente/update" method="post">
                             <label class="form-label">Nome do Docente: </label>
                             <hr>
+                            <input  type="hidden" name="id" value="<%= docente.id%>">
                             <input class="form-control" type="text" name="nome" value="<%= docente.nome%>"
                                 placeholder="Digite aqui o nome do docente" readonly>
                             <br>
@@ -27,38 +28,29 @@
                             </div>
                             <div class="row g3">
                                 <div class="col md-4">
-                                    <label class="form-label">Digite a sua Senha: </label>
+                                    <label class="form-label">Digite a sua antiga senha: </label>
+                                    <input class="form-control" type="password" name="senhaantiga" placeholder="********">
+                                </div>
+                                <div class="col md-4">
+                                    <label class="form-label">Digite a sua nova senha: </label>
                                     <input class="form-control" type="password" name="senha1" placeholder="********">
                                 </div>
                                 <div class="col md-4">
-                                    <label class="form-label">Confirme sua Senha: </label>
+                                    <label class="form-label">Confirme a sua nova Senha: </label>
                                     <input class="form-control" type="password" name="senha2" placeholder="********">
-                                </div>
-
+                                </div>                                
+                            </div>
+                            <div class="row g3 mt-4">
                                 <div class="col md-4">
                                     <label class="form-label">Regime de Trabalho: </label>
                                     <div class="input-group mb-3">
-                                        <select class="form-select" name="regime" readonly>
-                                            <option selected><%= docente.regime%></option>
-                                            <option value="1">20</option>
-                                            <option value="2">40</option>
-                                            <option value="3">DE</option>
-                                        </select>
+                                        <input type="text" class="form-control" value="<%= docente.regime%>" readonly>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row g3">
                                 <div class="col md-4">
                                     <label class="form-label">Coordenação: </label>
                                     <div class="input-group mb-3">
-                                        <select class="form-select" name="coordenacaoId">
-                                            <option selected><%= docente.coordenacao.nome%></option>
-                                            <% coordenacoes.forEach(coordenacao => { %>
-                                                <option value="<%= coordenacao.id %>">
-                                                    <%= coordenacao.nome %>
-                                                </option>
-                                                <% }) %>
-                                        </select>
+                                        <input type="text" class="form-control" value="<%= docente.coordenacao.nome%>" readonly>
                                     </div>
                                 </div>
                             </div>
