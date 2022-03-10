@@ -1,5 +1,5 @@
-<%- include('../partials/header.ejs') -%>
-    <%- include('../partials/navbaradmin.ejs') -%>
+<%- include('../../partials/header.ejs') -%>
+    <%- include('../../partials/navbaradmin.ejs') -%>
 
             <div class="container">
                 <div class="card mt-4">
@@ -7,17 +7,18 @@
                         <h2>Informe os dados do docente:</h2>
                     </div>
                     <div class="card-body">
-                        <form action="/docente/create" method="post">
+                        <form action="/admin/docente/update" method="post">
+                            <input type="hidden" name="id" value="<%= docente.id %>">
                             <label class="form-label">Nome do Docente: </label>
                             <hr>
                             <input class="form-control" type="text" name="nome" value="<%= docente.nome%>"
-                                placeholder="Digite aqui o nome do docente" readonly>
+                                placeholder="Digite aqui o nome do docente">
                             <br>
                             <div class="row g3 mb-3">
                                 <div class="col md-6">
                                     <label class="form-label">SIAPE: </label>
                                     <input class="form-control mb-3" type="text" name="siape" value="<%= docente.siape%>"
-                                        placeholder="Digite aqui o número SIAPE" readonly>
+                                        placeholder="Digite aqui o número SIAPE">
                                 </div>
                                 <div class="col md-6">
                                     <label class="form-label">Email: </label>
@@ -27,27 +28,16 @@
                             </div>
                             <div class="row g3">
                                 <div class="col md-4">
-                                    <label class="form-label">Digite a sua Senha: </label>
-                                    <input class="form-control" type="password" name="senha1" placeholder="********">
-                                </div>
-                                <div class="col md-4">
-                                    <label class="form-label">Confirme sua Senha: </label>
-                                    <input class="form-control" type="password" name="senha2" placeholder="********">
-                                </div>
-
-                                <div class="col md-4">
                                     <label class="form-label">Regime de Trabalho: </label>
                                     <div class="input-group mb-3">
                                         <select class="form-select" name="regime" readonly>
-                                            <option selected><%= docente.regime%></option>
+                                            <option selected value="<%= docente.regime%>"><%= docente.regime%></option>
                                             <option value="1">20</option>
                                             <option value="2">40</option>
                                             <option value="3">DE</option>
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row g3">
                                 <div class="col md-4">
                                     <label class="form-label">Coordenação: </label>
                                     <div class="input-group mb-3">
@@ -62,6 +52,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <br>
                             <button class="btn btn-success">Atualizar</button>
                             <a class="btn btn-primary" href="/planotrabalho/index">Voltar</a>
@@ -70,4 +61,4 @@
                 </div>
             </div>
 
-        <%- include('../partials/footer.ejs') -%>
+        <%- include('../../partials/footer.ejs') -%>

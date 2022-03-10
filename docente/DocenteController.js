@@ -37,6 +37,34 @@ router.get("/docente/edit", docenteAuth, (req, res) => {
     }
 });
 
+router.get("/admin/docente/edit/:id", adminAuth, (req, res) => {
+    var id = req.params.id;
+
+    if(!isNaN(id))
+    {
+        Docente.findOne({where:{id:id}, include:{model:Coordenacao, as: "coordenacao"}}).then(docente=>{
+            Coordenacao.findAll().then(coordenacoes=>{
+                res.render("admin/docente/edit",{docente:docente, coordenacoes:coordenacoes});
+            });
+        });
+    }
+});
+
+router.post("/admin/docente/delete", adminAuth, (req, res) => {
+
+    var id = req.body.id;
+
+    if (id != undefined) {
+        if (!isNaN(id)) {
+            Docente.destroy({ where: { id: id } }).then(() => {
+                res.redirect("/admin/docente/index");
+            });
+        }
+        else
+            res.redirect("/admin/docente/index");
+    }
+});
+
 router.post("/docente/update", docenteAuth, (req, res) => {
     var idSession = req.session.docente.id;
     var {id,email,senhaantiga, senha1,senha2} = req.body;
