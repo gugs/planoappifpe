@@ -1,7 +1,6 @@
 <%- include('../../partials/header.ejs') -%>
     <%- include('../../partials/navbaradmin.ejs') -%>
 
-        <body>
             <div class="container">
                 <br>
                 <h2>Docentes Cadastrados:</h2>
@@ -28,7 +27,7 @@
                                 <th> <%= docente.siape %></th>
                                 <th> <%= docente.email %></th>
                                 <th> <%= docente.regime %></th>
-                                <th> <%= docente.coordenacao.nome %></th>
+                                <th> <%- docente.coordenacao.nome %></th>
                                 <th>
                                     <a class=" btn btn-warning" href="">Editar</a>
                                     <a class=" btn btn-danger" href="">Deletar</a>
@@ -38,6 +37,5 @@
                     </tbody>
                 </table>
             </div>
-        </body>
 
         <%- include('../../partials/footer.ejs') -%>

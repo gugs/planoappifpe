@@ -9,19 +9,22 @@ const Docente = require("./Docente");
 const Coordenacao = require("../coordenacao/Coordenacao");
 const adminAuth = require("../middleware/adminAuth");
 
-router.get("/admin/docente/create", adminAuth, (req,res)=>{
-    Coordenacao.findAll().then(coordenacoes=>{
-        res.render("admin/docente/create",{coordenacoes:coordenacoes});
-    });    
+router.get("/admin/docente/create", adminAuth, (req, res) => {
+    Coordenacao.findAll().then(coordenacoes => {
+        res.render("admin/docente/create", { coordenacoes: coordenacoes });
+    });
 });
 
-router.get("/admin/docente/index", adminAuth,(req,res)=>{
-    Docente.findAll({include:{model:Coordenacao, as: "coordenacao"}}).then(docentes=>{
-        res.render("admin/docente/index",{docentes:docentes});
-    });    
+router.get("/admin/docente/index", adminAuth, (req, res) => {
+
+    Docente.findAll({ include: { model: Coordenacao, as: "coordenacao" } }).then(docentes => {
+        res.render("admin/docente/index", { docentes: docentes });
+    });
+
+
 });
 
-router.post("/docente/create", adminAuth, (req,res)=>{
+router.post("/docente/create", adminAuth, (req, res) => {
 
     var senha1 = req.body.senha1;
     var senha2 = req.body.senha2;
@@ -34,20 +37,19 @@ router.post("/docente/create", adminAuth, (req,res)=>{
 
     var salt = bcrypt.genSaltSync(10);
 
-    if(senha1 == senha2)
-    {
+    if (senha1 == senha2) {
         senha2 = bcrypt.hashSync(senha1, salt);
 
         Docente.create({
             nome: nome,
             siape: siape,
             email: email,
-            regime:regime,
+            regime: regime,
             coordenacaoId: coordenacaoId,
             senha: senha2,
             admin: admin
-        }).then(()=>{
-            res.redirect("/")
+        }).then(() => {
+            res.redirect("/admin/docente/index")
         });
     }
 });

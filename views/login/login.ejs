@@ -1,6 +1,13 @@
 <%- include('../partials/header.ejs') -%>
 
-    <body style="background-color: azure;">
+    <body class="d-flex flex-column min-vh-100" style="background-color: azure;">
+        <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #00420c;">
+            <div class="narbar-brand">
+                <a class="navbar-brand ms-4" href="/">
+                    <img src="/img/logo-ifpe.png" width="150px" height="40" />
+                </a>
+            </div>
+        </div>
         <div style="display: flex; align-items: center; justify-content: center;">
             <br>
             <div class="card" style="width: 40rem;margin-top: 100px;">
@@ -16,6 +23,16 @@
                 </div>
             </div>
         </div>
-    </body>
-
-    <%- include('../partials/footer.ejs') -%>
+        <div class="container mt-auto lh-sm" style="background-color:#f5f5f5; border: 1px solid #e3e3e3; border-radius: 10px;">
+            <p class="p-2">As informações contidas nos sistemas informatizados da Administração Pública são protegidas
+                por sigilo. As seguintes condutas constituem infrações ou
+                ilícitos que sujeitam o usuário deste sistema à responsabilização administrativa, penal e cível: o
+                acesso não autorizado; o acesso não motivado por
+                necessidade de serviço; a disponibilização voluntária ou acidental da senha de acesso; a
+                disponibilização não autorizada de informações contidas no sistema;
+                e a quebra do sigilo relativo a informações contidas no sistema.</p>
+            <p class="p-2">Todo e qualquer acesso é monitorado e controlado. Proteja sempre a sua senha. Quando encerrar as
+                operações, tenha o cuidado de clicar a opção "Encerra Sessão".
+                Ao teclar a opção "Acessar", o usuário declara-se ciente das responsabilidades acima referidas.</p>
+        </div>
+        <%- include('../partials/footer.ejs') -%>
