@@ -27,6 +27,56 @@ router.post("/admin/disciplina/create", adminAuth, (req,res)=>{
     });
 });
 
+router.post("/admin/disciplina/delete", adminAuth, (req, res) => {
+
+    var id = req.body.id;
+
+    if (id != undefined) {
+        if (!isNaN(id)) {
+            Disciplina.destroy({ where: { id: id } }).then(() => {
+                res.redirect("/admin/disciplina/index");
+            });
+        }
+        else
+            res.redirect("/admin/disciplina/index");
+    }
+});
+
+router.get("/admin/disciplina/edit/:id", adminAuth, (req, res) => {
+    var id = req.params.id;
+
+    if (!isNaN(id)) {
+        Disciplina.findOne({ where: { id: id } }).then(disciplina => {
+            res.render("admin/disciplina/edit", { disciplina: disciplina });
+        });
+    }
+    else
+        res.redirect("/admin/disciplina/index");
+});
+
+router.post("/admin/disciplina/update", adminAuth, (req, res) => {
+
+    var { id, nome, cargahorariaaula, cargahorariarelogio, tipo } = req.body;
+
+    if (!isNaN(id)) {
+        Disciplina.update({
+            nome: nome,
+            cargaHorariaAula: cargahorariaaula,
+            cargaHorariaRelogio: cargahorariarelogio,
+            tipo: tipo
+        },
+            {
+                where: { id: id }
+            }).then(() => {
+                res.redirect("/admin/disciplina/index");
+            });
+    }
+    else
+        res.redirect("/admin/disciplina/index");
+})
+
+
+
 router.get("/admin/disciplina/index",adminAuth,(req,res)=>{
 
     Disciplina.findAll().then(disciplinas => {

@@ -1,0 +1,45 @@
+<%- include('../../partials/header.ejs') -%>
+    <%- include('../../partials/navbaradmin.ejs') -%>
+
+            <div class="container">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h2>Informe os dados da disciplina:</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/disciplina/update" method="post">
+                            <input type="hidden" name="id" value="<%=disciplina.id%>">
+                            <label class="form-label">Nome da disciplina: </label>
+                            <input class="form-control" type="text" name="nome" value="<%= disciplina.nome%>"
+                                placeholder="Digite aqui o nome da disciplina">
+                            <br>
+                            <div class="row col g3 mb-3">
+                                <div class="col md-6">
+                                    <label for="form-label">CH/Aula</label>
+                                    <input class="form-control" type="number" step=".01" name="cargahorariaaula" value="<%= disciplina.cargaHorariaAula%>"
+                                        placeholder="CH aula disciplina">
+                                </div>
+                                <div class="col md-6">
+                                    <label for="form-label">CH/Relógio</label>
+                                    <input class="form-control" type="number" step=".01" name="cargahorariarelogio" value="<%= disciplina.cargaHorariaRelogio%>"
+                                        placeholder="CH relógio disciplina">
+                                </div>
+                                <div class="col md-6">
+                                    <label for="form-label">Tipo</label>
+                                    <div class="input-group mb-3">
+                                        <select class="form-select" name="tipo">
+                                            <option selected><%= disciplina.tipo%></option>
+                                            <option value="Integrado">Integrado</option>
+                                            <option value="Subsequente">Subsequente</option>
+                                            <option value="Superior">Superior</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-success">Atualizar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        <%- include('../../partials/footer.ejs') -%>

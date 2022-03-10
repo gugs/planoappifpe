@@ -45,7 +45,7 @@ router.post("/admin/coordenacao/update", adminAuth, (req, res) => {
     }
     else
         res.redirect("/admin/coordenacao/index");
-})
+});
 
 router.get("/admin/coordenacao/edit/:id", adminAuth, (req, res) => {
     var id = req.params.id;

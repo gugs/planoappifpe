@@ -26,8 +26,11 @@
                                 <th> <%= disciplina.cargaHorariaRelogio %></th>
                                 <th> <%= disciplina.tipo %></th>
                                 <th>
-                                    <a class=" btn btn-warning" href="">Editar</a>
-                                    <a class=" btn btn-danger" href="">Deletar</a>
+                                    <a class=" btn btn-warning" href="/admin/disciplina/edit/<%= disciplina.id %>">Editar</a>
+                                    <form action="/admin/disciplina/delete" method="post" onsubmit="confirmarDelecao(event, this)">
+                                        <input type="hidden" name="id" value="<%= disciplina.id %>">
+                                        <button class="btn btn-danger">Deletar</button>
+                                    </form>
                                 </th>
                             </tr>
                         <% }) %>
@@ -36,3 +39,11 @@
             </div>
 
         <%- include('../../partials/footer.ejs') -%>
+
+        <script>
+            function confirmarDelecao(event, form) {
+                event.preventDefault();
+                var decision = confirm("Você deseja deletar o registro?");
+                if (decision) { form.submit(); }
+            }
+        </script>
