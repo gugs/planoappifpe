@@ -25,12 +25,6 @@ const PlanoTrabalho = connection.define('planotrabalhos',{
     },
     observacoes:{
         type: Sequelize.TEXT
-    },
-    docenteId:{ 
-        type: Sequelize.INTEGER, 
-        references: {
-            model: Docente, 
-            referencesKey: "id" }
     }
 });
 

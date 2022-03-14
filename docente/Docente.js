@@ -2,7 +2,9 @@ const Sequelize = require("sequelize");
 
 const connection = require("../database/database");
 
-const Docente = connection.define('docente', {
+const PlanoTrabalho = require("../planotrabalho/PlanoTrabalho");
+
+const Docente = connection.define('docentes', {
     id:{
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -35,5 +37,6 @@ const Docente = connection.define('docente', {
         allowNull: false
     }
 });
+
 
 module.exports = Docente;

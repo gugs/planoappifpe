@@ -1,0 +1,61 @@
+<%- include('../../partials/header.ejs') -%>
+    <%- include('../../partials/navbaradmin.ejs') -%>
+        <div class="container">
+            <br>
+            <h2>Planos Cadastrados:</h2>
+            <hr>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>SIAPE</th>
+                        <th>Ano do Plano</th>
+                        <th>Semestre</th>
+                        <th>Status</th>
+                        <th>Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% planos.forEach(plano=> { %>
+                        <tr>
+                            <th>
+                                <%= plano.id %>
+                            </th>
+                            <th>
+                                <%=  %>
+                            </th>
+                            <th>
+                                <%=  %>
+                            </th>
+                            <th>
+                                <%= plano.ano %>
+                            </th>
+                            <th>
+                                <%= plano.semestre %>
+                            </th>
+                            <th> Pendente </th>
+                            <th>
+                                <a class=" btn btn-warning btn-sm" href="/planotrabalho/edit/<%= %>">Editar</a>
+                                <form action="/planotrabalho/delete" method="post"
+                                    onsubmit="confirmarDelecao(event,this)">
+                                    <input type="hidden" name="id" value="<%= %>">
+                                    <button class=" btn btn-danger btn-sm m-1">Deletar</button>
+                                </form>
+                            </th>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+        <%- include('../../partials/footer.ejs') -%>
+
+
+            <script>
+                function confirmarDelecao(event, form) {
+                    event.preventDefault();
+                    var decision = confirm("Você deseja deletar o registro?");
+                    if (decision) { form.submit(); }
+                }
+            </script>

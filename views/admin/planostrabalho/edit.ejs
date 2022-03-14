@@ -1,5 +1,5 @@
-<%- include('../partials/header.ejs') -%>
-    <%- include('../partials/navbar.ejs') -%>
+<%- include('../../partials/header.ejs') -%>
+    <%- include('../../partials/navbar.ejs') -%>
 
         <body onload="retrieveOnComboList()">
             <div class="container">
@@ -94,7 +94,6 @@
                                 id="article"><%- plano.observacoes %></textarea>
                             <br>
                             <button class="btn btn-success">Cadastrar</button>
-                            <a class="btn btn-primary" href="/planotrabalho/index">Cancelar</a>
                         </form>
                     </div>
                 </div>
@@ -102,7 +101,7 @@
 
         </body>
 
-        <%- include('../partials/footer.ejs') -%>
+        <%- include('../../partials/footer.ejs') -%>
 
             <script src="/tinymce/tinymce.min.js"></script>
             <script>

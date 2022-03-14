@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 
 const connection = require("../database/database");
 
-const Coordenacao = connection.define('coordenacao',{
+const Coordenacao = connection.define('coordenacaos',{
     id:{
         type: Sequelize.INTEGER,
         primaryKey: true,

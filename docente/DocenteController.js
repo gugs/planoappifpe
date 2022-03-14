@@ -27,11 +27,10 @@ router.get("/admin/docente/index", adminAuth, (req, res) => {
 
 router.get("/docente/edit", docenteAuth, (req, res) => {
     var idSession = req.session.docente.id;
-    if(idSession != undefined)
-    {
-        Docente.findOne({where:{id:idSession}, include:{model:Coordenacao, as: "coordenacao"}}).then(docente=>{
-            Coordenacao.findAll().then(coordenacoes=>{
-                res.render("docente/edit",{docente:docente, coordenacoes:coordenacoes});
+    if (idSession != undefined) {
+        Docente.findOne({ where: { id: idSession }, include: { model: Coordenacao, as: "coordenacao" } }).then(docente => {
+            Coordenacao.findAll().then(coordenacoes => {
+                res.render("docente/edit", { docente: docente, coordenacoes: coordenacoes });
             });
         });
     }
@@ -40,11 +39,10 @@ router.get("/docente/edit", docenteAuth, (req, res) => {
 router.get("/admin/docente/edit/:id", adminAuth, (req, res) => {
     var id = req.params.id;
 
-    if(!isNaN(id))
-    {
-        Docente.findOne({where:{id:id}, include:{model:Coordenacao, as: "coordenacao"}}).then(docente=>{
-            Coordenacao.findAll().then(coordenacoes=>{
-                res.render("admin/docente/edit",{docente:docente, coordenacoes:coordenacoes});
+    if (!isNaN(id)) {
+        Docente.findOne({ where: { id: id }, include: { model: Coordenacao, as: "coordenacao" } }).then(docente => {
+            Coordenacao.findAll().then(coordenacoes => {
+                res.render("admin/docente/edit", { docente: docente, coordenacoes: coordenacoes });
             });
         });
     }
@@ -67,33 +65,47 @@ router.post("/admin/docente/delete", adminAuth, (req, res) => {
 
 router.post("/docente/update", docenteAuth, (req, res) => {
     var idSession = req.session.docente.id;
-    var {id,email,senhaantiga, senha1,senha2} = req.body;
+    var { id, email, senhaantiga, senha1, senha2 } = req.body;
     var salt = bcrypt.genSaltSync(10);
 
-    if(idSession == id)
-    {
-        Docente.findOne({where:{id:id}}).then(docente=>{
-            if(bcrypt.compareSync(senhaantiga, docente.senha))
-            {
-                if(senha1 == senha2)
-                {
+    if (idSession == id) {
+        Docente.findOne({ where: { id: id } }).then(docente => {
+            if (bcrypt.compareSync(senhaantiga, docente.senha)) {
+                if (senha1 == senha2) {
                     Docente.update({
                         email: email,
-                        senha: bcrypt.hashSync(senha1,salt)
+                        senha: bcrypt.hashSync(senha1, salt)
                     },
-                    {
-                        where:{id:id}
-                    }).then(()=>{
-                        res.redirect("/planotrabalho/index");
-                    });
+                        {
+                            where: { id: id }
+                        }).then(() => {
+                            res.redirect("/planotrabalho/index");
+                        });
                 }
             }
         });
     }
+});
 
-    
+router.post("/admin/docente/update", adminAuth, (req, res) => {
+    var { id, nome, email, siape, regime, coordenacaoId } = req.body;
 
-    
+    Docente.findOne({ where: { id: id } }).then(docente => {
+        if (docente != undefined) {
+            Docente.update({
+                nome: nome,
+                siape: siape,
+                email: email,
+                regime: regime,
+                coordenacaoId: coordenacaoId
+            },
+                {
+                    where: { id: id }
+                }).then(() => {
+                    res.redirect("/admin/docente/index");
+                });
+        }
+    });
 });
 
 
