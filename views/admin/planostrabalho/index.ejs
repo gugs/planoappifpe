@@ -23,10 +23,10 @@
                                 <%= plano.id %>
                             </th>
                             <th>
-                                <%=  %>
+                                <%= plano.docente.nome %>
                             </th>
                             <th>
-                                <%=  %>
+                                <%= plano.docente.siape %>
                             </th>
                             <th>
                                 <%= plano.ano %>
@@ -36,7 +36,7 @@
                             </th>
                             <th> Pendente </th>
                             <th>
-                                <a class=" btn btn-warning btn-sm" href="/planotrabalho/edit/<%= %>">Editar</a>
+                                <a class=" btn btn-warning btn-sm" href="/planotrabalho/edit/<%=plano.id%>">Editar</a>
                                 <form action="/planotrabalho/delete" method="post"
                                     onsubmit="confirmarDelecao(event,this)">
                                     <input type="hidden" name="id" value="<%= %>">

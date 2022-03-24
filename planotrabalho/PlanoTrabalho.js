@@ -28,4 +28,7 @@ const PlanoTrabalho = connection.define('planotrabalhos',{
     }
 });
 
+Docente.hasMany(PlanoTrabalho, {model:Docente});
+PlanoTrabalho.belongsTo(Docente);
+
 module.exports = PlanoTrabalho;

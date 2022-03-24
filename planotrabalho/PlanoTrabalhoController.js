@@ -69,8 +69,8 @@ router.get("/planotrabalho/index", docenteAuth, (req, res) => {
 
 router.get("/admin/planos/index", adminAuth, (req, res) => {
 
-    PlanoTrabalho.findAll({include:{model: Docente, as:"docentes"}}).then(planos=>{
-        res.render("/admin/planostrabalho/index", {planos:planos});
+    PlanoTrabalho.findAll({include: {model: Docente, as:'docente'} }).then(planos=>{
+        res.render("admin/planostrabalho/index", {planos:planos});
     });
 });
 

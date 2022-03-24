@@ -3,9 +3,9 @@ const app = express();
 const port = 8080;
 
 const Coordenacao = require("./coordenacao/Coordenacao");
+const PlanoTrabalho = require("./planotrabalho/PlanoTrabalho");
 const Docente = require("./docente/Docente");
 const Disciplina = require("./disciplina/Disciplina");
-const PlanoTrabalho = require("./planotrabalho/PlanoTrabalho");
 const PlanoDisciplina = require("./planodisciplina/PlanoDisciplina");
 const connection = require("./database/database");
 
@@ -14,15 +14,14 @@ const session = require("express-session");
 Coordenacao.hasMany(Docente);
 Docente.belongsTo(Coordenacao);
 
-Docente.hasMany(PlanoTrabalho);
-PlanoTrabalho.belongsTo(Docente);
-
 
 PlanoTrabalho.belongsToMany(Disciplina, { through: PlanoDisciplina });
 Disciplina.belongsToMany(PlanoTrabalho, { through: PlanoDisciplina });
 
 
-connection.sync({force:true});
+connection.sync({ force: false });
+
+//Realizando um teste
 
 
 const coordenacaoController = require("./coordenacao/CoordenacaoController");

@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 
 const connection = require("../database/database");
 
-const PlanoTrabalho = require("../planotrabalho/PlanoTrabalho");
+//const PlanoTrabalho = require("../planotrabalho/PlanoTrabalho");
 
 const Docente = connection.define('docentes', {
     id:{
