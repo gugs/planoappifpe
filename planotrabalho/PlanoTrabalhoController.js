@@ -1,3 +1,9 @@
+
+const dictValidation = {};
+dictValidation[1] = "Validado";
+dictValidation[2] = "Não validado";
+dictValidation[3] = "Pendente";
+
 const express = require("express");
 const router = express();
 const slugify = require("slugify");
@@ -54,6 +60,38 @@ router.get("/planotrabalho/edit/:id", docenteAuth, (req, res) => {
     });
 });
 
+router.get("/admin/planotrabalho/view/:id", adminAuth, (req, res) => {
+    var planoId = req.params.id;
+
+    Disciplina.findAll().then(disciplinas => {
+        PlanoTrabalho.findOne({ where: { id: planoId } }).then(plano => {
+            Docente.findOne({ where: { id: plano.docenteId } }).then(docente => {
+                PlanoDisciplina.findAll({ where: { planotrabalhoId: plano.id } }).then(planodisciplinas => {
+                    res.render('admin/planostrabalho/view', { plano: plano, docente: docente, disciplinas: disciplinas, planodisciplinas: planodisciplinas });
+                });
+
+            });
+        });
+    });
+});
+
+router.post("/admin/planostrabalho/validate", adminAuth, (req, res) => {
+    var planoId = req.body.planoId;
+    var procedimento = req.body.procedimento;
+    const status = dictValidation[procedimento];
+
+    if (status != undefined) {
+        PlanoTrabalho.update({
+            status: status
+        }, {
+            where: { id: planoId }
+        }).then(() => {
+            res.redirect("/admin/planos/index");
+        });
+    } else
+        res.redirect("/admin/planos/index");
+});
+
 
 router.get("/planotrabalho/index", docenteAuth, (req, res) => {
     var sessionId = req.session.docente.id;
@@ -69,8 +107,8 @@ router.get("/planotrabalho/index", docenteAuth, (req, res) => {
 
 router.get("/admin/planos/index", adminAuth, (req, res) => {
 
-    PlanoTrabalho.findAll({include: {model: Docente, as:'docente'} }).then(planos=>{
-        res.render("admin/planostrabalho/index", {planos:planos});
+    PlanoTrabalho.findAll({ include: { model: Docente, as: 'docente' } }).then(planos => {
+        res.render("admin/planostrabalho/index", { planos: planos });
     });
 });
 

@@ -1,5 +1,5 @@
 <%- include('../../partials/header.ejs') -%>
-    <%- include('../../partials/navbar.ejs') -%>
+    <%- include('../../partials/navbaradmin.ejs') -%>
 
         <body onload="retrieveOnComboList()">
             <div class="container">
@@ -8,7 +8,26 @@
                         <h2>Informe os Dados do Plano de Trabalho Individual:</h2>
                     </div>
                     <div class="card-body">
-                        <form action="/planotrabalho/create" method="post">
+                        <form action="/admin/planostrabalho/validate" method="post">
+                            <div class="card-body">
+                                <hr>
+                                <div class="form-label">Procedimento de avaliação: </div>
+                                <div class="row align-items-start mb-3">
+                                    <div class="col">
+                                        <select class="form-select" name="procedimento">
+                                            <option selected>Escolha a ação...</option>
+                                            <option value="1">Validar</option>
+                                            <option value="2">Não validar</option>
+                                            <option value="3">Pendente</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-success">Confirmar</button>
+                                        <a class="btn btn-warning" href="/admin/planos/index">Voltar</a>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
                             <input type="hidden" value="<%= plano.id %>" name="planoId">
                             <label class="form-label">Nome do Docente: </label>
                             <hr>
@@ -19,56 +38,15 @@
                             <div class="row g3 mb-3">
                                 <div class="col md-4">
                                     <label class="form-label">Ano: </label>
-                                    <select class="form-select" name="ano">
-                                        <option selected>
-                                            <%= plano.ano %>
-                                        </option>
-                                        <option value="2022">2022</option>
-                                        <option value="2023">2023</option>
-                                        <option value="2024">2024</option>
-                                    </select>
+                                    <input type="text" class="form-control" value="<%= plano.ano %>" readonly>
                                 </div>
                                 <div class="col md-4">
                                     <label class="form-label">Semestre: </label>
-                                    <select class="form-select" name="semestre">
-                                        <option selected>
-                                            <%= plano.semestre %>
-                                        </option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                    </select>
+                                    <input type="text" class="form-control" value="<%= plano.semestre %>" readonly>
                                 </div>
                                 <div class="col md-4">
                                     <label class="form-label">Grupo: </label>
-                                    <select class="form-select" name="grupo">
-                                        <option selected>
-                                            <%= plano.grupo %>
-                                        </option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row g3">
-                                <div class="col md-8">
-                                    <label class="form-label">Disciplinas: </label>
-                                    <select class="form-select" id="listaDisciplina">
-                                        <option selected>Escolha...</option>
-                                        <% disciplinas.forEach(disciplina=> { %>
-                                            <option value="<%= disciplina.id %>">
-                                                <%= disciplina.nome %>
-                                            </option>
-                                            <% }) %>
-                                    </select>
-                                </div>
-                                <div class="col md-8 mt-4">
-                                    <label class="form-label"></label>
-                                    <a class="btn btn-success" type="button" id="buttonAdd"
-                                        onclick="addOnComboList()">Adicionar</a>
+                                    <input type="text" class="form-control" value="<%= plano.grupo %>" readonly>
                                 </div>
                             </div>
 
@@ -93,7 +71,6 @@
                                 placeholder="Insira as observações do seu plano"
                                 id="article"><%- plano.observacoes %></textarea>
                             <br>
-                            <button class="btn btn-success">Cadastrar</button>
                         </form>
                     </div>
                 </div>
@@ -108,6 +85,7 @@
                 tinymce.init({
                     language: 'pt_BR',
                     selector: "#article",
+                    readonly: 1,
                     plugins: [
                         'advlist autolink link image lists print preview hr searchreplace wordcount fullscream insertdatetime media save table paste emoticons'
                     ]
@@ -115,69 +93,6 @@
             </script>
 
             <script>
-                function addOnComboList() {
-
-                    var disciplinesLocal = [];
-                    var discipline;
-
-                    <% disciplinas.forEach(disciplina => { %>
-                        discipline = {
-                            "id": "<%= disciplina.id %>",
-                                "nome": "<%= disciplina.nome %>",
-                                    "chaula": "<%= disciplina.cargaHorariaAula %>",
-                                        "chrelogio": "<%= disciplina.cargaHorariaRelogio %>",
-                                            "tipo": "<%= disciplina.tipo %>",
-                        }
-                        disciplinesLocal.unshift(discipline);
-                    <% }) %>
-
-                    var el = document.getElementById("listaDisciplina");
-                    var tabela = document.getElementById("itensSelecionados").getElementsByTagName('tbody')[0];
-
-                    if (!containItemTabela(el.value)) {
-                        disciplinesLocal.forEach(d => {
-                            if (d.id === el.value) {
-                                var row = tabela.insertRow(0);
-                                row.setAttribute("name", "selecaodisciplinas");
-                                row.setAttribute("value", d.id);
-                                row.setAttribute("type", "input");
-                                var cellId = row.insertCell(0);
-                                var cellNome = row.insertCell(1);
-                                var cellAula = row.insertCell(2);
-                                var cellRelogio = row.insertCell(3);
-                                var cellTipo = row.insertCell(4);
-                                var cellOpcao = row.insertCell(5);
-                                var cellHidden = row.insertCell(6);
-                                var deleteLink = document.createElement("a");
-                                var input = document.createElement("input");
-                                input.setAttribute("name", "selecaodisciplinas");
-                                input.setAttribute("value", d.id);
-                                input.setAttribute("type", "hidden");
-                                deleteLink.setAttribute('class', "btn btn-danger");
-                                deleteLink.setAttribute('id', d.id);
-                                deleteLink.setAttribute('title', "deletar");
-                                deleteLink.setAttribute('onClick', "deletarLinhaTabela(id)");
-                                row.id = d.id * 10;
-                                cellId.innerHTML = d.id;
-                                cellNome.innerHTML = d.nome;
-                                cellAula.innerHTML = d.chaula;
-                                cellRelogio.innerHTML = d.chrelogio;
-                                cellTipo.innerHTML = d.tipo;
-                                cellOpcao.appendChild(deleteLink);
-                                cellHidden.appendChild(input);
-                            }
-                        });
-                    }
-                    else {
-                        alert("Item já adicionado na lista");
-                    }
-
-                }
-
-                function deletarLinhaTabela(id) {
-                    document.getElementById(id).remove();
-                    document.getElementById(id * 10).remove();
-                }
 
                 function listaIDELementosTabela() {
                     var disciplinasId = [];

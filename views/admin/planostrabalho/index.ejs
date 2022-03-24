@@ -34,9 +34,9 @@
                             <th>
                                 <%= plano.semestre %>
                             </th>
-                            <th> Pendente </th>
+                            <th> <%= plano.status %> </th>
                             <th>
-                                <a class=" btn btn-warning btn-sm" href="/planotrabalho/edit/<%=plano.id%>">Editar</a>
+                                <a class=" btn btn-warning btn-sm" href="/admin/planotrabalho/view/<%=plano.id%>">Visualizar</a>
                                 <form action="/planotrabalho/delete" method="post"
                                     onsubmit="confirmarDelecao(event,this)">
                                     <input type="hidden" name="id" value="<%= %>">

@@ -25,6 +25,10 @@ const PlanoTrabalho = connection.define('planotrabalhos',{
     },
     observacoes:{
         type: Sequelize.TEXT
+    },
+    status:{
+        type: Sequelize.TEXT,
+        defaultValue: "Pendente"
     }
 });
 
