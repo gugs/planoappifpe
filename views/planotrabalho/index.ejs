@@ -49,6 +49,8 @@
                                             </th>
                                             <th>
                                                 <% if(plano.editable==1) { %>
+                                                    <a class=" btn btn-primary btn-sm"
+                                                        href="/planotrabalho/view/<%= plano.id %>">Visualizar</a>
                                                     <a class=" btn btn-warning btn-sm"
                                                         href="/planotrabalho/edit/<%= plano.id %>">Editar</a>
                                                     <form action="/planotrabalho/delete" method="post"
@@ -56,7 +58,10 @@
                                                         <input type="hidden" name="id" value="<%= plano.id %>">
                                                         <button class=" btn btn-danger btn-sm m-1">Deletar</button>
                                                     </form>
-                                                    <% } %>
+                                                    <% } else{ %>
+                                                        <a class=" btn btn-primary btn-sm"
+                                                            href="/planotrabalho/view/<%= plano.id %>">Visualizar</a>
+                                                        <% } %>
                                             </th>
                                         </tr>
                                         <% }) %>

@@ -1,0 +1,166 @@
+<%- include('../partials/header.ejs') -%>
+    <%- include('../partials/navbaradmin.ejs') -%>
+
+        <body onload="retrieveOnComboList()">
+            <div class="container">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h2>Informe os Dados do Plano de Trabalho Individual:</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/planostrabalho/validate" method="post">
+                            <input type="hidden" value="<%= plano.id %>" name="planoId">
+                            <label class="form-label">Nome do Docente: </label>
+                            <hr>
+                            <input class="form-control" type="hidden" name="docenteId" value="<%= docente.id %>"
+                                readonly>
+                            <input class="form-control" type="text" value="<%= docente.nome %>" readonly>
+                            <br>
+                            <div class="row g3 mb-3">
+                                <div class="col md-4">
+                                    <label class="form-label">Ano: </label>
+                                    <input type="text" class="form-control" value="<%= plano.ano %>" readonly>
+                                </div>
+                                <div class="col md-4">
+                                    <label class="form-label">Semestre: </label>
+                                    <input type="text" class="form-control" value="<%= plano.semestre %>" readonly>
+                                </div>
+                                <div class="col md-4">
+                                    <label class="form-label">Grupo: </label>
+                                    <input type="text" class="form-control" value="<%= plano.grupo %>" readonly>
+                                </div>
+                            </div>
+
+                            <table class="table table-bordered mt-4" id="itensSelecionados">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Disciplina</th>
+                                        <th>CH Aula</th>
+                                        <th>CH Relógio</th>
+                                        <th>Tipo</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                            <br>
+                            <label class="form-label">Observações: </label>
+                            <textarea class="form-control" name="observacoes"
+                                placeholder="Insira as observações do seu plano"
+                                id="article"><%- plano.observacoes %></textarea>
+                            <br>
+                            <a class="btn btn-primary" href="/planotrabalho/index">Voltar</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </body>
+
+        <%- include('../partials/footer.ejs') -%>
+
+            <script src="/tinymce/tinymce.min.js"></script>
+            <script>
+                tinymce.init({
+                    language: 'pt_BR',
+                    selector: "#article",
+                    readonly: 1,
+                    plugins: [
+                        'advlist autolink link image lists print preview hr searchreplace wordcount fullscream insertdatetime media save table paste emoticons'
+                    ]
+                });
+            </script>
+
+            <script>
+
+                function listaIDELementosTabela() {
+                    var disciplinasId = [];
+                    var size = document.getElementById("itensSelecionados").rows.length;
+                    var x;
+                    for (var i = 1; i < size; i++) {
+                        x = document.getElementById("itensSelecionados").rows[i].cells[0].innerHTML;
+                        disciplinasId.unshift(x);
+                    }
+                    console.log(disciplinasId);
+                }
+
+                function containItemTabela(a) {
+                    var disciplinasId = [];
+                    var size = document.getElementById("itensSelecionados").rows.length;
+                    var x;
+                    for (var i = 1; i < size; i++) {
+                        x = document.getElementById("itensSelecionados").rows[i].cells[0].innerHTML;
+                        disciplinasId.unshift(x);
+                    }
+                    return disciplinasId.includes(a);
+                }
+
+                function retrieveOnComboList() {
+
+                    var disciplinesLocal = [];
+                    var discipline;
+
+                    console.log(<%= disciplinas.length %>);
+                    console.log(<%= planodisciplinas.length %>);
+                    
+                        <% planodisciplinas.forEach(planodisciplina => { %>
+                        <% disciplinas.forEach(disciplina => { %>
+                        <% if (planodisciplina.disciplinaId === disciplina.id) { %>
+                            discipline = {
+                                "id": "<%= disciplina.id %>",
+                                    "nome": "<%= disciplina.nome %>",
+                                        "chaula": "<%= disciplina.cargaHorariaAula %>",
+                                            "chrelogio": "<%= disciplina.cargaHorariaRelogio %>",
+                                                "tipo": "<%= disciplina.tipo %>",
+                                            }
+                            disciplinesLocal.unshift(discipline);
+                            console.log(discipline);
+                        <% } %>
+                    <% }); %>
+                    <% }); %>
+                    
+                    var tabela = document.getElementById("itensSelecionados").getElementsByTagName('tbody')[0];
+
+                    disciplinesLocal.forEach(d => {
+                        var row = tabela.insertRow(0);
+                        row.setAttribute("name", "selecaodisciplinas");
+                        row.setAttribute("value", d.id);
+                        row.setAttribute("type", "input");
+                        var cellId = row.insertCell(0);
+                        var cellNome = row.insertCell(1);
+                        var cellAula = row.insertCell(2);
+                        var cellRelogio = row.insertCell(3);
+                        var cellTipo = row.insertCell(4);
+                        var cellOpcao = row.insertCell(5);
+                        var cellHidden = row.insertCell(6);
+                        var deleteLink = document.createElement("a");
+                        var input = document.createElement("input");
+                        input.setAttribute("name", "selecaodisciplinas");
+                        input.setAttribute("value", d.id);
+                        input.setAttribute("type", "hidden");
+                        deleteLink.setAttribute('class', "btn btn-danger");
+                        deleteLink.setAttribute('id', d.id);
+                        deleteLink.setAttribute('title', "deletar");
+                        deleteLink.setAttribute('onClick', "deletarLinhaTabela(id)");
+                        row.id = d.id * 10;
+                        cellId.innerHTML = d.id;
+                        cellNome.innerHTML = d.nome;
+                        cellAula.innerHTML = d.chaula;
+                        cellRelogio.innerHTML = d.chrelogio;
+                        cellTipo.innerHTML = d.tipo;
+                        cellOpcao.appendChild(deleteLink);
+                        cellHidden.appendChild(input);
+
+                    });
+                }
+
+                function confirmarDelecao(event, form) {
+                    event.preventDefault();
+                    var decision = confirm("Você deseja deletar o registro?");
+                    if (decision) { form.submit(); }
+                }
+
+
+            </script>

@@ -92,6 +92,10 @@
                                                 placeholder="Insira as observações do seu plano"
                                                 id="article"></textarea>
                                             <br>
+                                            <label for="formFileMultiple" class="form-label">Anexe os documentos
+                                                comprobatórios: </label>
+                                            <input class="form-control" type="file" id="formFileMultiple" multiple />
+                                            <br>
                                             <button class="btn btn-success">Cadastrar</button>
                                         </form>
                                     </div>
@@ -120,14 +124,14 @@
                                     
 
                     <% disciplinas.forEach(disciplina => { %>
-                        discipline = {
-                            "id": "<%= disciplina.id %>",
-                                "nome": "<%= disciplina.nome %>",
-                                    "chaula": "<%= disciplina.cargaHorariaAula %>",
-                                        "chrelogio": "<%= disciplina.cargaHorariaRelogio %>",
-                                            "tipo": "<%= disciplina.tipo %>",
+                                        discipline = {
+                                            "id": "<%= disciplina.id %>",
+                                                "nome": "<%= disciplina.nome %>",
+                                                    "chaula": "<%= disciplina.cargaHorariaAula %>",
+                                                        "chrelogio": "<%= disciplina.cargaHorariaRelogio %>",
+                                                            "tipo": "<%= disciplina.tipo %>",
                         }
-                        disciplinesLocal.unshift(discipline);
+                                        disciplinesLocal.unshift(discipline);
                     <% }) %>
 
                     var el = document.getElementById("listaDisciplina");

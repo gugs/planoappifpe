@@ -60,6 +60,21 @@ router.get("/planotrabalho/edit/:id", docenteAuth, (req, res) => {
     });
 });
 
+router.get("/planotrabalho/view/:id", docenteAuth, (req, res) => {
+    var planoId = req.params.id;
+
+    Disciplina.findAll().then(disciplinas => {
+        PlanoTrabalho.findOne({ where: { id: planoId } }).then(plano => {
+            Docente.findOne({ where: { id: plano.docenteId } }).then(docente => {
+                PlanoDisciplina.findAll({ where: { planotrabalhoId: plano.id } }).then(planodisciplinas => {
+                    res.render('planotrabalho/view', { plano: plano, docente: docente, disciplinas: disciplinas, planodisciplinas: planodisciplinas });
+                });
+
+            });
+        });
+    });
+});
+
 router.get("/admin/planotrabalho/view/:id", adminAuth, (req, res) => {
     var planoId = req.params.id;
 
