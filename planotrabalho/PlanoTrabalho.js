@@ -33,6 +33,13 @@ const PlanoTrabalho = connection.define('planotrabalhos',{
     editable:{
         type: Sequelize.BOOLEAN,
         defaultValue: 1
+    },
+    comprovantespath:{
+        type: Sequelize.STRING
+    },
+    cargaHorariatotal:{
+        type: Sequelize.TINYINT,
+        defaultValue: 0
     }
 });
 

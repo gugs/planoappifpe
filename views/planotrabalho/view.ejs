@@ -52,6 +52,10 @@
                                 placeholder="Insira as observações do seu plano"
                                 id="article"><%- plano.observacoes %></textarea>
                             <br>
+                            <label class="form-label" for="Documento Comprobatório">Documento Anexado: </label>
+                            <br>
+                            <a href="/files/<%= plano.comprovantespath %>"><%= plano.comprovantespath %></a>
+                            <br>
                             <a class="btn btn-primary" href="/planotrabalho/index">Voltar</a>
                         </form>
                     </div>
@@ -140,10 +144,7 @@
                         input.setAttribute("name", "selecaodisciplinas");
                         input.setAttribute("value", d.id);
                         input.setAttribute("type", "hidden");
-                        deleteLink.setAttribute('class', "btn btn-danger");
                         deleteLink.setAttribute('id', d.id);
-                        deleteLink.setAttribute('title', "deletar");
-                        deleteLink.setAttribute('onClick', "deletarLinhaTabela(id)");
                         row.id = d.id * 10;
                         cellId.innerHTML = d.id;
                         cellNome.innerHTML = d.nome;

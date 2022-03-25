@@ -7,6 +7,20 @@ dictValidation[3] = "Pendente";
 const express = require("express");
 const router = express();
 const slugify = require("slugify");
+const fs = require('fs');
+
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "uploads/");
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + " - " + file.originalname);
+    }
+})
+
+const upload = multer({ storage });
 
 const PlanoTrabalho = require("./planotrabalho");
 const Docente = require("../docente/Docente");
@@ -34,7 +48,6 @@ router.get("/planotrabalho/create", docenteAuth, (req, res) => {
                     }
                     res.render('planotrabalho/create', { docente: docente, disciplinas: disciplinas, plano: planoNovo });
                 }
-
             });
         });
     });
@@ -98,7 +111,7 @@ router.post("/admin/planostrabalho/validate", adminAuth, (req, res) => {
     if (status != undefined) {
         PlanoTrabalho.update({
             status: status,
-            editable: (procedimento == 1? 0:1)
+            editable: (procedimento == 1 ? 0 : 1)
         }, {
             where: { id: planoId }
         }).then(() => {
@@ -143,7 +156,29 @@ router.post("/planotrabalho/delete", docenteAuth, (req, res) => {
     });
 });
 
-router.post("/planotrabalho/create", docenteAuth, (req, res) => {
+router.get("/files/:filename", docenteAuth, (req, res) => {
+    var filename = req.params.filename;
+    
+    if (filename != undefined) {
+        const filePath = "uploads/" + filename;
+        fs.access(filePath, fs.constants.F_OK, err =>{
+            console.log(`${filename} ${err ? "não existe": "existe" }`);
+        });
+        fs.readFile(filePath, function(err, content){
+            if(err)
+            {
+                res.writeHead(404, {"Content-type":"text/html"});
+                res.end("<h1>Imagem nao encontrada </h1>");
+            }
+            else{
+                res.writeHead(200,{"Content-type": "application/pdf"});
+                res.end(content);
+            }
+        });
+    }
+});
+
+router.post("/planotrabalho/create", upload.single("customFile"), docenteAuth, (req, res) => {
     var selecaodisciplinas = [];
     var docenteId = req.body.docenteId;
     var ano = req.body.ano;
@@ -152,6 +187,7 @@ router.post("/planotrabalho/create", docenteAuth, (req, res) => {
     var observacoes = req.body.observacoes;
     var selecaodisciplinas = req.body.selecaodisciplinas;
     var planoId = req.body.planoId;
+    var file = (req.file.filename == undefined? "" : req.file.filename);
 
     try {
         PlanoTrabalho.create({
@@ -160,6 +196,7 @@ router.post("/planotrabalho/create", docenteAuth, (req, res) => {
             semestre: semestre,
             grupo: grupo,
             observacoes: observacoes,
+            comprovantespath: file
         }).then(() => {
             planoId++;
             if (Array.isArray(selecaodisciplinas)) {

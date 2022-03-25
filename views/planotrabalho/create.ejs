@@ -12,7 +12,7 @@
                                         <h2>Informe os Dados do Plano de Trabalho Individual:</h2>
                                     </div>
                                     <div class="card-body">
-                                        <form action="/planotrabalho/create" method="post">
+                                        <form action="/planotrabalho/create" method="post" enctype="multipart/form-data">
                                             <input type="hidden" value="<%= plano.id %>" name="planoId">
                                             <label class="form-label">Nome do Docente: </label>
                                             <hr>
@@ -92,11 +92,11 @@
                                                 placeholder="Insira as observações do seu plano"
                                                 id="article"></textarea>
                                             <br>
-                                            <label for="formFileMultiple" class="form-label">Anexe os documentos
-                                                comprobatórios: </label>
-                                            <input class="form-control" type="file" id="formFileMultiple" multiple />
+                                            <label class="form-label" for="customFile">Anexe o documento comprobatório: </label>
+                                            <input type="file" class="form-control" name="customFile" accept=".pdf" required />
                                             <br>
-                                            <button class="btn btn-success">Cadastrar</button>
+                                            <input class="btn btn-success" type="submit" value="Cadastrar2">
+                                            <a class="btn btn-primary" href="/planotrabalho/index">Voltar</a>
                                         </form>
                                     </div>
                                 </div>

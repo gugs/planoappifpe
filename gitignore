@@ -1,3 +1,7 @@
+# Folders to ignore
+uploads/
+uploads/.*
+
 # Logs
 logs
 *.log
