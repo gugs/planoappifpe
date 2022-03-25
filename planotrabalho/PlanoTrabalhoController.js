@@ -40,10 +40,10 @@ router.get("/planotrabalho/create", docenteAuth, (req, res) => {
     });
 });
 
+//Falta tratar o editavel do plano de trabalho
 router.get("/planotrabalho/edit/:id", docenteAuth, (req, res) => {
     var sessionId = req.session.docente.id;
     var planoId = req.params.id;
-
 
     Disciplina.findAll().then(disciplinas => {
         PlanoTrabalho.findOne({ where: { id: planoId } }).then(plano => {
@@ -82,7 +82,8 @@ router.post("/admin/planostrabalho/validate", adminAuth, (req, res) => {
 
     if (status != undefined) {
         PlanoTrabalho.update({
-            status: status
+            status: status,
+            editable: (procedimento == 1? 0:1)
         }, {
             where: { id: planoId }
         }).then(() => {

@@ -29,6 +29,10 @@ const PlanoTrabalho = connection.define('planotrabalhos',{
     status:{
         type: Sequelize.TEXT,
         defaultValue: "Pendente"
+    },
+    editable:{
+        type: Sequelize.BOOLEAN,
+        defaultValue: 1
     }
 });
 

@@ -36,12 +36,7 @@
                             </th>
                             <th> <%= plano.status %> </th>
                             <th>
-                                <a class=" btn btn-warning btn-sm" href="/admin/planotrabalho/view/<%=plano.id%>">Visualizar</a>
-                                <form action="/planotrabalho/delete" method="post"
-                                    onsubmit="confirmarDelecao(event,this)">
-                                    <input type="hidden" name="id" value="<%= %>">
-                                    <button class=" btn btn-danger btn-sm m-1">Deletar</button>
-                                </form>
+                                <a class=" btn btn-warning btn-sm" href="/admin/planotrabalho/view/<%=plano.id%>">Validar</a>
                             </th>
                         </tr>
                         <% }) %>
