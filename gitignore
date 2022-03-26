@@ -1,6 +1,5 @@
 # Folders to ignore
-uploads/
-uploads/.*
+/uploads/*
 
 # Logs
 logs

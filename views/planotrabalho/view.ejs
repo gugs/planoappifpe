@@ -54,7 +54,9 @@
                             <br>
                             <label class="form-label" for="Documento Comprobatório">Documento Anexado: </label>
                             <br>
-                            <a href="/files/<%= plano.comprovantespath %>"><%= plano.comprovantespath %></a>
+                            <span class="form-control border bg-light">
+                                <a href="/files/<%= plano.comprovantespath %>"><%= plano.comprovantespath %></a>
+                            </span>
                             <br>
                             <a class="btn btn-primary" href="/planotrabalho/index">Voltar</a>
                         </form>

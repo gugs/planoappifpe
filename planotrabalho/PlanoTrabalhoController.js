@@ -164,7 +164,7 @@ router.get("/files/:filename", docenteAuth, (req, res) => {
         fs.access(filePath, fs.constants.F_OK, err =>{
             console.log(`${filename} ${err ? "não existe": "existe" }`);
         });
-        fs.readFile(filePath, function(err, content){
+        fs.readFile(filePath, (err, content)=>{
             if(err)
             {
                 res.writeHead(404, {"Content-type":"text/html"});
