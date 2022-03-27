@@ -1,0 +1,54 @@
+<%- include('../../partials/header.ejs') -%>
+    <%- include('../../partials/navbaradmin.ejs') -%>
+
+            <div class="container">
+                <br>
+                <h2>Projetos de Extensões Cadastrados:</h2>
+                <hr>
+                <a class="btn btn-success" href="/admin/extensao/create">Cadastrar Proj. Extensão</a>
+                <hr>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Ano Inicial</th>
+                            <th>Ano Final</th>
+                            <th>C.H.</th>
+                            <th>Renovação</th>
+                            <th>Coordenador</th>
+                            <th>Opções</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% extensoes.forEach(extensao => { %>
+                            <tr>
+                                <th> <%= extensao.id %></th>
+                                <th> <%= extensao.titulo %></th>
+                                <th> <%= extensao.anoinicio %></th>
+                                <th> <%= extensao.anofim %></th>
+                                <th> <%= extensao.cargahoraria %></th>
+                                <th> <%= extensao.prorrogado %></th>
+                                <th> <%- extensao.docente.nome %></th>
+                                <th>
+                                    <a class=" btn btn-warning" href="/admin/extensao/edit/<%= extensao.id %>">Editar</a>
+                                    <form action="/admin/extensao/delete" method="post" onsubmit="confirmarDelecao(event,this)">
+                                        <input type="hidden" name="id" value="<%= extensao.id %>">
+                                        <button class="btn btn-danger">Deletar</button>
+                                    </form>
+                                </th>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+
+        <%- include('../../partials/footer.ejs') -%>
+
+        <script>
+            function confirmarDelecao(event, form) {
+                event.preventDefault();
+                var decision = confirm("Você deseja deletar o registro?");
+                if (decision) { form.submit(); }
+            }
+        </script>

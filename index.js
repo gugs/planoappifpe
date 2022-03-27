@@ -6,7 +6,9 @@ const Coordenacao = require("./coordenacao/Coordenacao");
 const PlanoTrabalho = require("./planotrabalho/PlanoTrabalho");
 const Docente = require("./docente/Docente");
 const Disciplina = require("./disciplina/Disciplina");
+const Extensao = require("./extensao/Extensao");
 const PlanoDisciplina = require("./planodisciplina/PlanoDisciplina");
+const PlanoExtensao = require("./planoextensao/PlanoExtensao");
 const connection = require("./database/database");
 
 const session = require("express-session");
@@ -14,20 +16,26 @@ const session = require("express-session");
 Coordenacao.hasMany(Docente);
 Docente.belongsTo(Coordenacao);
 
+Extensao.belongsTo(Docente);
 
 PlanoTrabalho.belongsToMany(Disciplina, { through: PlanoDisciplina });
 Disciplina.belongsToMany(PlanoTrabalho, { through: PlanoDisciplina });
 
+Extensao.belongsToMany(Docente, { through: PlanoExtensao });
+Docente.belongsToMany(Extensao, { through: PlanoExtensao });
 
-connection.sync({ force: false });
+
+connection.sync({ force: true });
 
 //Realizando um teste
-
 
 const coordenacaoController = require("./coordenacao/CoordenacaoController");
 const docenteController = require("./docente/docenteController");
 const disciplinaController = require("./disciplina/DisciplinaController");
 const PlanoTrabalhoController = require("./planotrabalho/PlanoTrabalhoController");
+const extensaoController = require("./extensao/ExtensaoController");
+
+
 //importando o modulo body parser (manipulador dos campos http)
 const bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs/dist/bcrypt");
@@ -50,6 +58,7 @@ app.use("/", coordenacaoController);
 app.use("/", docenteController);
 app.use("/", disciplinaController);
 app.use("/", PlanoTrabalhoController);
+app.use("/", extensaoController);
 
 app.get("/", (req, res) => {
     res.render("login/login");

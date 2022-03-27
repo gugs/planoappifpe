@@ -35,7 +35,16 @@ const PlanoTrabalho = connection.define('planotrabalhos',{
         defaultValue: 1
     },
     comprovantespath:{
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    comprovantestype:{
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    data:{
+        type: Sequelize.BLOB('medium'),
+        allowNull: true
     },
     cargaHorariatotal:{
         type: Sequelize.TINYINT,
