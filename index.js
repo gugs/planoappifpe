@@ -21,8 +21,8 @@ Extensao.belongsTo(Docente);
 PlanoTrabalho.belongsToMany(Disciplina, { through: PlanoDisciplina });
 Disciplina.belongsToMany(PlanoTrabalho, { through: PlanoDisciplina });
 
-Extensao.belongsToMany(Docente, { through: PlanoExtensao });
-Docente.belongsToMany(Extensao, { through: PlanoExtensao });
+Extensao.belongsToMany(PlanoTrabalho, { through: PlanoExtensao });
+PlanoTrabalho.belongsToMany(Extensao, { through: PlanoExtensao });
 
 
 connection.sync({ force: true });

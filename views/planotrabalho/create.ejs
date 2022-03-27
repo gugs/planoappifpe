@@ -12,7 +12,8 @@
                                         <h2>Informe os Dados do Plano de Trabalho Individual:</h2>
                                     </div>
                                     <div class="card-body">
-                                        <form action="/planotrabalho/create" method="post" enctype="multipart/form-data">
+                                        <form action="/planotrabalho/create" method="post"
+                                            enctype="multipart/form-data">
                                             <input type="hidden" value="<%= plano.id %>" name="planoId">
                                             <label class="form-label">Nome do Docente: </label>
                                             <hr>
@@ -86,19 +87,58 @@
 
                                                 </tbody>
                                             </table>
+                                            <div class="row g3">
+                                                <div class="col md-8">
+                                                    <label class="form-label">Proj. Extensão: </label>
+                                                    <select class="form-select" id="listaExtensao">
+                                                        <option selected>Escolha...</option>
+                                                        <% extensoes.forEach(extensao=> { %>
+                                                            <option value="<%= extensao.id %>">
+                                                                <%= extensao.id %>
+                                                                    <%= extensao.titulo %>
+                                                            </option>
+                                                            <% }) %>
+                                                    </select>
+                                                </div>
+                                                <div class="col md-8 mt-4">
+                                                    <label class="form-label"></label>
+                                                    <a class="btn btn-success" type="button" id="buttonAddEx"
+                                                        onclick="addOnComboListEx()">Adicionar</a>
+                                                </div>
+                                            </div>
+
+                                            <table class="table table-bordered mt-4" id="itensSelecionadosEx">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Título</th>
+                                                        <th>Coordenador(a)</th>
+                                                        <th>Ano Início</th>
+                                                        <th>Ano Término</th>
+                                                        <th>Renovação</th>
+                                                        <th>CH</th>
+                                                        <th>Ação</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+
                                             <br>
                                             <label class="form-label">Observações: </label>
                                             <textarea class="form-control" name="observacoes"
                                                 placeholder="Insira as observações do seu plano"
                                                 id="article"></textarea>
                                             <br>
-                                            <label class="form-label" for="customFile">Anexe o documento comprobatório: </label>
-                                            <input type="file" class="form-control" name="customFile" accept=".pdf" required />
+                                            <label class="form-label" for="customFile">Anexe o documento comprobatório:
+                                            </label>
+                                            <input type="file" class="form-control" name="customFile" accept=".pdf"
+                                                required />
                                             <br>
                                             <input class="btn btn-success" type="submit" value="Cadastrar2">
                                             <a class="btn btn-primary" href="/planotrabalho/index">Voltar</a>
-                                        </form>
                                     </div>
+                                    </form>
                                 </div>
                             </div>
                         </body>
@@ -118,25 +158,21 @@
 
                             <script>
                                 function addOnComboList() {
-
                                     var disciplinesLocal = [];
                                     var discipline;
                                     
-
-                    <% disciplinas.forEach(disciplina => { %>
+                            <% disciplinas.forEach(disciplina => { %>
                                         discipline = {
                                             "id": "<%= disciplina.id %>",
                                                 "nome": "<%= disciplina.nome %>",
                                                     "chaula": "<%= disciplina.cargaHorariaAula %>",
                                                         "chrelogio": "<%= disciplina.cargaHorariaRelogio %>",
                                                             "tipo": "<%= disciplina.tipo %>",
-                        }
+                                }
                                         disciplinesLocal.unshift(discipline);
-                    <% }) %>
-
-                    var el = document.getElementById("listaDisciplina");
+                            <% }) %>
+                            var el = document.getElementById("listaDisciplina");
                                     var tabela = document.getElementById("itensSelecionados").getElementsByTagName('tbody')[0];
-
                                     if (!containItemTabela(el.value)) {
                                         disciplinesLocal.forEach(d => {
                                             if (d.id === el.value) {
@@ -201,6 +237,84 @@
                                         disciplinasId.unshift(x);
                                     }
                                     return disciplinasId.includes(a);
+                                }
+
+                                function containItemTabelaEx(a) {
+                                    var extensoesId = [];
+                                    var size = document.getElementById("itensSelecionadosEx").rows.length;
+                                    var x;
+                                    for (var i = 1; i < size; i++) {
+                                        x = document.getElementById("itensSelecionadosEx").rows[i].cells[0].innerHTML;
+                                        extensoesId.unshift(x);
+                                    }
+                                    return extensoesId.includes(a);
+                                }
+
+
+                                function addOnComboListEx() {
+
+                                    var extensionesLocal = [];
+                                    var extensiones;
+                                    
+
+                    <% extensoes.forEach(ext => { %>
+                                        extensiones = {
+                                            "id": "<%= ext.id %>",
+                                                "titulo": "<%= ext.titulo %>",
+                                                    "coordenador": "<%= ext.docente.nome%>",
+                                                        "inicio": "<%= ext.anoinicio %>",
+                                                            "fim": "<%= ext.anofim %>",
+                                                                "prorrogado": "<%= ext.prorrogado %>",
+                                                                    "ch": "<%= ext.cargahoraria %>",
+                        }
+                                        extensionesLocal.unshift(extensiones);
+                    <% }) %>
+
+                    var el = document.getElementById("listaExtensao");
+                                    var tabela = document.getElementById("itensSelecionadosEx").getElementsByTagName('tbody')[0];
+
+                                    if (!containItemTabelaEx(el.value)) {
+                                        extensionesLocal.forEach(d => {
+                                            if (d.id === el.value) {
+                                                var row = tabela.insertRow(0);
+                                                row.setAttribute("name", "selecaoextensao");
+                                                row.setAttribute("value", d.id);
+                                                row.setAttribute("type", "input");
+                                                var cellId = row.insertCell(0);
+                                                var cellTitulo = row.insertCell(1);
+                                                var cellCoordenador = row.insertCell(2);
+                                                var cellInicio = row.insertCell(3);
+                                                var cellFim = row.insertCell(4);
+                                                var cellProrrogado = row.insertCell(5);
+                                                var cellCH = row.insertCell(6);
+                                                var cellOpcao = row.insertCell(7);
+                                                var cellHidden = row.insertCell(8);
+                                                var deleteLink = document.createElement("a");
+                                                var input = document.createElement("input");
+                                                input.setAttribute("name", "selecaoextensao");
+                                                input.setAttribute("value", d.id);
+                                                input.setAttribute("type", "hidden");
+                                                deleteLink.setAttribute('class', "btn btn-danger");
+                                                deleteLink.setAttribute('id', d.id);
+                                                deleteLink.setAttribute('title', "deletar");
+                                                deleteLink.setAttribute('onClick', "deletarLinhaTabela(id)");
+                                                row.id = d.id * 10;
+                                                cellId.innerHTML = d.id;
+                                                cellTitulo.innerHTML = d.titulo;
+                                                cellCoordenador.innerHTML = d.coordenador;
+                                                cellInicio.innerHTML = d.inicio;
+                                                cellFim.innerHTML = d.fim;
+                                                cellProrrogado.innerHTML = d.prorrogado;
+                                                cellCH.innerHTML = d.ch;
+
+                                                cellOpcao.appendChild(deleteLink);
+                                                cellHidden.appendChild(input);
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        alert("Item já adicionado na lista");
+                                    }
                                 }
 
                             </script>

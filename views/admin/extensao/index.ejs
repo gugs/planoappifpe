@@ -29,7 +29,7 @@
                                 <th> <%= extensao.anofim %></th>
                                 <th> <%= extensao.cargahoraria %></th>
                                 <th> <%= extensao.prorrogado %></th>
-                                <th> <%- extensao.docente.nome %></th>
+                                <th> <%= extensao.docente.nome %></th>
                                 <th>
                                     <a class=" btn btn-warning" href="/admin/extensao/edit/<%= extensao.id %>">Editar</a>
                                     <form action="/admin/extensao/delete" method="post" onsubmit="confirmarDelecao(event,this)">

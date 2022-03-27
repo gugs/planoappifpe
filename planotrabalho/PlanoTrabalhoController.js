@@ -30,24 +30,27 @@ const { type } = require("express/lib/response");
 
 const docenteAuth = require("../middleware/docenteAuth");
 const adminAuth = require("../middleware/adminAuth");
+const Extensao = require("../extensao/Extensao");
 
 router.get("/planotrabalho/create", docenteAuth, (req, res) => {
     var sessionId = req.session.docente.id;
 
     Docente.findOne({ where: { id: sessionId } }).then(docente => {
         Disciplina.findAll().then(disciplinas => {
-            PlanoTrabalho.findOne({
-                order: [['id', 'DESC']],
-            }).then(plano => {
-                if (plano != undefined) {
-                    res.render('planotrabalho/create', { docente: docente, disciplinas: disciplinas, plano: plano });
-                }
-                else {
-                    var planoNovo = {
-                        id: 0
+            Extensao.findAll({include:{model:Docente,as:"docente"}}).then(extensoes => {
+                PlanoTrabalho.findOne({
+                    order: [['id', 'DESC']],
+                }).then(plano => {
+                    if (plano != undefined) {
+                        res.render('planotrabalho/create', { docente: docente, disciplinas: disciplinas, extensoes: extensoes, plano: plano });
                     }
-                    res.render('planotrabalho/create', { docente: docente, disciplinas: disciplinas, plano: planoNovo });
-                }
+                    else {
+                        var planoNovo = {
+                            id: 0
+                        }
+                        res.render('planotrabalho/create', { docente: docente, disciplinas: disciplinas, extensoes: extensoes, plano: planoNovo });
+                    }
+                });
             });
         });
     });
@@ -158,20 +161,19 @@ router.post("/planotrabalho/delete", docenteAuth, (req, res) => {
 
 router.get("/files/:filename", docenteAuth, (req, res) => {
     var filename = req.params.filename;
-    
+
     if (filename != undefined) {
         const filePath = "uploads/" + filename;
-        fs.access(filePath, fs.constants.F_OK, err =>{
-            console.log(`${filename} ${err ? "não existe": "existe" }`);
+        fs.access(filePath, fs.constants.F_OK, err => {
+            console.log(`${filename} ${err ? "não existe" : "existe"}`);
         });
-        fs.readFile(filePath, (err, content)=>{
-            if(err)
-            {
-                res.writeHead(404, {"Content-type":"text/html"});
+        fs.readFile(filePath, (err, content) => {
+            if (err) {
+                res.writeHead(404, { "Content-type": "text/html" });
                 res.end("<h1>Imagem nao encontrada </h1>");
             }
-            else{
-                res.writeHead(200,{"Content-type": "application/pdf"});
+            else {
+                res.writeHead(200, { "Content-type": "application/pdf" });
                 res.end(content);
             }
         });
@@ -187,7 +189,7 @@ router.post("/planotrabalho/create", upload.single("customFile"), docenteAuth, (
     var observacoes = req.body.observacoes;
     var selecaodisciplinas = req.body.selecaodisciplinas;
     var planoId = req.body.planoId;
-    var file = (req.file.filename == undefined? "" : req.file.filename);
+    var file = (req.file.filename == undefined ? "" : req.file.filename);
 
     try {
         PlanoTrabalho.create({
