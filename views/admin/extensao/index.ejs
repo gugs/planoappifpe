@@ -32,10 +32,6 @@
                                 <th> <%= extensao.docente.nome %></th>
                                 <th>
                                     <a class=" btn btn-warning" href="/admin/extensao/edit/<%= extensao.id %>">Editar</a>
-                                    <form action="/admin/extensao/delete" method="post" onsubmit="confirmarDelecao(event,this)">
-                                        <input type="hidden" name="id" value="<%= extensao.id %>">
-                                        <button class="btn btn-danger">Deletar</button>
-                                    </form>
                                 </th>
                             </tr>
                         <% }) %>

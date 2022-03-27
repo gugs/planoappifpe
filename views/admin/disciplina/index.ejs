@@ -27,10 +27,6 @@
                                 <th> <%= disciplina.tipo %></th>
                                 <th>
                                     <a class=" btn btn-warning" href="/admin/disciplina/edit/<%= disciplina.id %>">Editar</a>
-                                    <form action="/admin/disciplina/delete" method="post" onsubmit="confirmarDelecao(event, this)">
-                                        <input type="hidden" name="id" value="<%= disciplina.id %>">
-                                        <button class="btn btn-danger">Deletar</button>
-                                    </form>
                                 </th>
                             </tr>
                         <% }) %>

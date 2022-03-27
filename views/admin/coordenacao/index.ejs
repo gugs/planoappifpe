@@ -22,10 +22,6 @@
                                 <th> <%= coordenacao.nome %></th>
                                 <th>
                                     <a class=" btn btn-warning" href="/admin/coordenacao/edit/<%= coordenacao.id%>">Editar</a>
-                                    <form action="/admin/coordenacao/delete" method="post" onsubmit="confirmarDelecao(event, this)">
-                                        <input type="hidden" name="id" value="<%= coordenacao.id%>">
-                                        <button class="btn btn-danger">Deletar</button>
-                                    </form>
                                 </th>
                             </tr>
                         <% }) %>

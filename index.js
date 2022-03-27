@@ -25,7 +25,7 @@ Extensao.belongsToMany(PlanoTrabalho, { through: PlanoExtensao });
 PlanoTrabalho.belongsToMany(Extensao, { through: PlanoExtensao });
 
 
-connection.sync({ force: true });
+connection.sync({ force: false });
 
 //Realizando um teste
 

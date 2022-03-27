@@ -31,13 +31,14 @@ const { type } = require("express/lib/response");
 const docenteAuth = require("../middleware/docenteAuth");
 const adminAuth = require("../middleware/adminAuth");
 const Extensao = require("../extensao/Extensao");
+const PlanoExtensao = require("../planoextensao/PlanoExtensao");
 
 router.get("/planotrabalho/create", docenteAuth, (req, res) => {
     var sessionId = req.session.docente.id;
 
     Docente.findOne({ where: { id: sessionId } }).then(docente => {
         Disciplina.findAll().then(disciplinas => {
-            Extensao.findAll({include:{model:Docente,as:"docente"}}).then(extensoes => {
+            Extensao.findAll({ include: { model: Docente, as: "docente" } }).then(extensoes => {
                 PlanoTrabalho.findOne({
                     order: [['id', 'DESC']],
                 }).then(plano => {
@@ -61,16 +62,23 @@ router.get("/planotrabalho/edit/:id", docenteAuth, (req, res) => {
     var sessionId = req.session.docente.id;
     var planoId = req.params.id;
 
-    Disciplina.findAll().then(disciplinas => {
-        PlanoTrabalho.findOne({ where: { id: planoId } }).then(plano => {
-            Docente.findOne({ where: { id: plano.docenteId } }).then(docente => {
-                if (sessionId == docente.id) {
-                    PlanoDisciplina.findAll({ where: { planotrabalhoId: plano.id } }).then(planodisciplinas => {
-                        res.render('planotrabalho/edit', { plano: plano, docente: docente, disciplinas: disciplinas, planodisciplinas: planodisciplinas });
-                    });
-                }
-                else
-                    res.redirect('/logout');
+    Extensao.findAll({ include: { model: Docente, as: "docente" } }).then(extensoes => {
+        Disciplina.findAll().then(disciplinas => {
+            PlanoTrabalho.findOne({ where: { id: planoId } }).then(plano => {
+                Docente.findOne({ where: { id: plano.docenteId } }).then(docente => {
+                    if (sessionId == docente.id) {
+                        PlanoDisciplina.findAll({ where: { planotrabalhoId: plano.id } }).then(planodisciplinas => {
+                            PlanoExtensao.findAll({ where: { planotrabalhoId: plano.id } }).then(planosextensao => {
+                                res.render('planotrabalho/edit', {
+                                    plano: plano, docente: docente, disciplinas: disciplinas,
+                                    planodisciplinas: planodisciplinas, extensoes: extensoes, planosextensao: planosextensao
+                                });
+                            });
+                        });
+                    }
+                    else
+                        res.redirect('/logout');
+                });
             });
         });
     });
@@ -79,13 +87,19 @@ router.get("/planotrabalho/edit/:id", docenteAuth, (req, res) => {
 router.get("/planotrabalho/view/:id", docenteAuth, (req, res) => {
     var planoId = req.params.id;
 
-    Disciplina.findAll().then(disciplinas => {
-        PlanoTrabalho.findOne({ where: { id: planoId } }).then(plano => {
-            Docente.findOne({ where: { id: plano.docenteId } }).then(docente => {
-                PlanoDisciplina.findAll({ where: { planotrabalhoId: plano.id } }).then(planodisciplinas => {
-                    res.render('planotrabalho/view', { plano: plano, docente: docente, disciplinas: disciplinas, planodisciplinas: planodisciplinas });
+    Extensao.findAll({ include: { model: Docente, as: "docente" } }).then(extensoes => {
+        Disciplina.findAll().then(disciplinas => {
+            PlanoTrabalho.findOne({ where: { id: planoId } }).then(plano => {
+                Docente.findOne({ where: { id: plano.docenteId } }).then(docente => {
+                    PlanoDisciplina.findAll({ where: { planotrabalhoId: plano.id } }).then(planodisciplinas => {
+                        PlanoExtensao.findAll({ where: { planotrabalhoId: plano.id } }).then(planosextensao => {
+                            res.render('planotrabalho/view', {
+                                plano: plano, docente: docente, disciplinas: disciplinas,
+                                planodisciplinas: planodisciplinas, extensoes: extensoes, planosextensao: planosextensao
+                            });
+                        });
+                    });
                 });
-
             });
         });
     });
@@ -94,13 +108,19 @@ router.get("/planotrabalho/view/:id", docenteAuth, (req, res) => {
 router.get("/admin/planotrabalho/view/:id", adminAuth, (req, res) => {
     var planoId = req.params.id;
 
-    Disciplina.findAll().then(disciplinas => {
-        PlanoTrabalho.findOne({ where: { id: planoId } }).then(plano => {
-            Docente.findOne({ where: { id: plano.docenteId } }).then(docente => {
-                PlanoDisciplina.findAll({ where: { planotrabalhoId: plano.id } }).then(planodisciplinas => {
-                    res.render('admin/planostrabalho/view', { plano: plano, docente: docente, disciplinas: disciplinas, planodisciplinas: planodisciplinas });
+    Extensao.findAll({ include: { model: Docente, as: "docente" } }).then(extensoes => {
+        Disciplina.findAll().then(disciplinas => {
+            PlanoTrabalho.findOne({ where: { id: planoId } }).then(plano => {
+                Docente.findOne({ where: { id: plano.docenteId } }).then(docente => {
+                    PlanoDisciplina.findAll({ where: { planotrabalhoId: plano.id } }).then(planodisciplinas => {
+                        PlanoExtensao.findAll({ where: { planotrabalhoId: plano.id } }).then(planosextensao => {
+                            res.render('admin/planostrabalho/view', {
+                                plano: plano, docente: docente, disciplinas: disciplinas,
+                                planodisciplinas: planodisciplinas, extensoes: extensoes, planosextensao: planosextensao
+                            });
+                        });
+                    });
                 });
-
             });
         });
     });
@@ -181,13 +201,13 @@ router.get("/files/:filename", docenteAuth, (req, res) => {
 });
 
 router.post("/planotrabalho/create", upload.single("customFile"), docenteAuth, (req, res) => {
-    var selecaodisciplinas = [];
+    var selecaodisciplinas = [].concat(req.body.selecaodisciplinas);
+    var selecaoextensoes = (req.body.selecaoextensao != undefined ? [].concat(req.body.selecaoextensao) : undefined);
     var docenteId = req.body.docenteId;
     var ano = req.body.ano;
     var semestre = req.body.semestre;
     var grupo = req.body.grupo;
     var observacoes = req.body.observacoes;
-    var selecaodisciplinas = req.body.selecaodisciplinas;
     var planoId = req.body.planoId;
     var file = (req.file.filename == undefined ? "" : req.file.filename);
 
@@ -201,23 +221,26 @@ router.post("/planotrabalho/create", upload.single("customFile"), docenteAuth, (
             comprovantespath: file
         }).then(() => {
             planoId++;
-            if (Array.isArray(selecaodisciplinas)) {
-                selecaodisciplinas.forEach(d => {
-                    console.log(parseInt(d))
-                    PlanoDisciplina.create({
-                        planotrabalhoId: (planoId),
-                        disciplinaId: parseInt(d),
-                        ano: ano
-                    });
-                });
-                res.redirect("/planotrabalho/index");
-            }
-            else {
+            selecaodisciplinas.forEach(d => {
+                console.log(parseInt(d))
                 PlanoDisciplina.create({
                     planotrabalhoId: (planoId),
                     disciplinaId: parseInt(d),
                     ano: ano
                 });
+            });
+            if (selecaoextensoes != undefined) {
+                selecaoextensoes.forEach(e => {
+                    PlanoExtensao.create({
+                        extensoId: parseInt(e),
+                        ano: ano,
+                        planotrabalhoId: planoId
+                    }).then(() => {
+                        res.redirect("/planotrabalho/index");
+                    });
+                });
+            }
+            else {
                 res.redirect("/planotrabalho/index");
             }
         });

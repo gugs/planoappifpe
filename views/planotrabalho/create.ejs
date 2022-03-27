@@ -71,22 +71,23 @@
                                                         onclick="addOnComboList()">Adicionar</a>
                                                 </div>
                                             </div>
-
-                                            <table class="table table-bordered mt-4" id="itensSelecionados">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Disciplina</th>
-                                                        <th>CH Aula</th>
-                                                        <th>CH Relógio</th>
-                                                        <th>Tipo</th>
-                                                        <th>Ação</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                </tbody>
-                                            </table>
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered mt-4" id="itensSelecionados">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Disciplina</th>
+                                                            <th>CH Aula</th>
+                                                            <th>CH Relógio</th>
+                                                            <th>Tipo</th>
+                                                            <th>Ação</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+    
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             <div class="row g3">
                                                 <div class="col md-8">
                                                     <label class="form-label">Proj. Extensão: </label>
@@ -106,24 +107,24 @@
                                                         onclick="addOnComboListEx()">Adicionar</a>
                                                 </div>
                                             </div>
-
-                                            <table class="table table-bordered mt-4" id="itensSelecionadosEx">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Título</th>
-                                                        <th>Coordenador(a)</th>
-                                                        <th>Ano Início</th>
-                                                        <th>Ano Término</th>
-                                                        <th>Renovação</th>
-                                                        <th>CH</th>
-                                                        <th>Ação</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table>
-
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered mt-4" id="itensSelecionadosEx">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Título</th>
+                                                            <th>Coordenador(a)</th>
+                                                            <th>Ano Início</th>
+                                                            <th>Ano Término</th>
+                                                            <th>Renovação</th>
+                                                            <th>CH</th>
+                                                            <th>Ação</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             <br>
                                             <label class="form-label">Observações: </label>
                                             <textarea class="form-control" name="observacoes"
@@ -213,8 +214,13 @@
                                 }
 
                                 function deletarLinhaTabela(id) {
-                                    document.getElementById(id).remove();
+                                    
                                     document.getElementById(id * 10).remove();
+                                }
+
+                                function deletarLinhaTabelaEx(id) {
+                                    
+                                    document.getElementById(id * 100).remove();
                                 }
 
                                 function listaIDELementosTabela() {
@@ -297,8 +303,8 @@
                                                 deleteLink.setAttribute('class', "btn btn-danger");
                                                 deleteLink.setAttribute('id', d.id);
                                                 deleteLink.setAttribute('title', "deletar");
-                                                deleteLink.setAttribute('onClick', "deletarLinhaTabela(id)");
-                                                row.id = d.id * 10;
+                                                deleteLink.setAttribute('onClick', "deletarLinhaTabelaEx(id)");
+                                                row.id = d.id * 100;
                                                 cellId.innerHTML = d.id;
                                                 cellTitulo.innerHTML = d.titulo;
                                                 cellCoordenador.innerHTML = d.coordenador;

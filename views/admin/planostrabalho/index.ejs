@@ -4,44 +4,49 @@
             <br>
             <h2>Planos Cadastrados:</h2>
             <hr>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>SIAPE</th>
-                        <th>Ano do Plano</th>
-                        <th>Semestre</th>
-                        <th>Status</th>
-                        <th>Opções</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% planos.forEach(plano=> { %>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <th>
-                                <%= plano.id %>
-                            </th>
-                            <th>
-                                <%= plano.docente.nome %>
-                            </th>
-                            <th>
-                                <%= plano.docente.siape %>
-                            </th>
-                            <th>
-                                <%= plano.ano %>
-                            </th>
-                            <th>
-                                <%= plano.semestre %>
-                            </th>
-                            <th> <%= plano.status %> </th>
-                            <th>
-                                <a class=" btn btn-warning btn-sm" href="/admin/planotrabalho/view/<%=plano.id%>">Validar</a>
-                            </th>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>SIAPE</th>
+                            <th>Ano do Plano</th>
+                            <th>Semestre</th>
+                            <th>Status</th>
+                            <th>Opções</th>
                         </tr>
-                        <% }) %>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <% planos.forEach(plano=> { %>
+                            <tr>
+                                <th>
+                                    <%= plano.id %>
+                                </th>
+                                <th>
+                                    <%= plano.docente.nome %>
+                                </th>
+                                <th>
+                                    <%= plano.docente.siape %>
+                                </th>
+                                <th>
+                                    <%= plano.ano %>
+                                </th>
+                                <th>
+                                    <%= plano.semestre %>
+                                </th>
+                                <th>
+                                    <%= plano.status %>
+                                </th>
+                                <th>
+                                    <a class=" btn btn-warning btn-sm"
+                                        href="/admin/planotrabalho/view/<%=plano.id%>">Validar</a>
+                                </th>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <%- include('../../partials/footer.ejs') -%>

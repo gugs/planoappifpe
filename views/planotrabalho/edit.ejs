@@ -1,7 +1,7 @@
 <%- include('../partials/header.ejs') -%>
     <%- include('../partials/navbar.ejs') -%>
 
-        <body onload="retrieveOnComboList()">
+        <body onload="retrieveOnComboList();retrieveExOnComboList()">
             <div class="container">
                 <div class="card mt-4">
                     <div class="card-header">
@@ -87,6 +87,45 @@
 
                                 </tbody>
                             </table>
+
+                            <div class="row g3">
+                                <div class="col md-8">
+                                    <label class="form-label">Proj. Extensão: </label>
+                                    <select class="form-select" id="listaExtensao">
+                                        <option selected>Escolha...</option>
+                                        <% extensoes.forEach(extensao=> { %>
+                                            <option value="<%= extensao.id %>">
+                                                <%= extensao.id %>
+                                                    <%= extensao.titulo %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div>
+                                <div class="col md-8 mt-4">
+                                    <label class="form-label"></label>
+                                    <a class="btn btn-success" type="button" id="buttonAddEx"
+                                        onclick="addOnComboListEx()">Adicionar</a>
+                                </div>
+                            </div>
+
+                            <table class="table table-bordered mt-4" id="itensSelecionadosEx">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Título</th>
+                                        <th>Coordenador(a)</th>
+                                        <th>Ano Início</th>
+                                        <th>Ano Término</th>
+                                        <th>Renovação</th>
+                                        <th>CH</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+
                             <br>
                             <label class="form-label">Observações: </label>
                             <textarea class="form-control" name="observacoes"
@@ -94,7 +133,7 @@
                                 id="article"><%- plano.observacoes %></textarea>
                             <br>
                             <label class="form-label" for="customFile">Anexe o documento comprobatório: </label>
-                            <input type="file" class="form-control" id="customFile" enctype="multipart/form-data"/>
+                            <input type="file" class="form-control" id="customFile" enctype="multipart/form-data" />
                             <br>
                             <button class="btn btn-success">Cadastrar</button>
                             <a class="btn btn-primary" href="/planotrabalho/index">Cancelar</a>
@@ -205,6 +244,18 @@
                     return disciplinasId.includes(a);
                 }
 
+                function containItemTabelaEx(a) {
+                    var extensoesId = [];
+                    var size = document.getElementById("itensSelecionadosEx").rows.length;
+                    var x;
+                    for (var i = 1; i < size; i++) {
+                        x = document.getElementById("itensSelecionadosEx").rows[i].cells[0].innerHTML;
+                        extensoesId.unshift(x);
+                    }
+                    return extensoesId.includes(a);
+                }
+
+
                 function retrieveOnComboList() {
 
                     var disciplinesLocal = [];
@@ -266,6 +317,69 @@
                     });
                 }
 
+                function retrieveExOnComboList() {
+
+                    var extensionesLocal = [];
+                    var extensiones;
+
+                <% planosextensao.forEach(planoextensao => { %>
+                <% extensoes.forEach(ext => { %>
+                    <% if (planoextensao.extensoId === ext.id) { %>
+                            extensiones = {
+                                "id": "<%= ext.id %>",
+                                    "titulo": "<%= ext.titulo %>",
+                                        "coordenador": "<%= ext.docente.nome%>",
+                                            "inicio": "<%= ext.anoinicio %>",
+                                                "fim": "<%= ext.anofim %>",
+                                                    "prorrogado": "<%= ext.prorrogado %>",
+                                                        "ch": "<%= ext.cargahoraria %>",
+                }
+                            extensionesLocal.unshift(extensiones);
+                        <% } %>
+                <% }); %>
+                <% }); %>
+
+                        console.log(extensionesLocal);
+
+                    var tabela = document.getElementById("itensSelecionadosEx").getElementsByTagName('tbody')[0];
+
+                    extensionesLocal.forEach(d => {
+                        var row = tabela.insertRow(0);
+                        row.setAttribute("name", "selecaoextensao");
+                        row.setAttribute("value", d.id);
+                        row.setAttribute("type", "input");
+                        var cellId = row.insertCell(0);
+                        var cellTitulo = row.insertCell(1);
+                        var cellCoordenador = row.insertCell(2);
+                        var cellInicio = row.insertCell(3);
+                        var cellFim = row.insertCell(4);
+                        var cellProrrogado = row.insertCell(5);
+                        var cellCH = row.insertCell(6);
+                        var cellOpcao = row.insertCell(7);
+                        var cellHidden = row.insertCell(8);
+                        var deleteLink = document.createElement("a");
+                        var input = document.createElement("input");
+                        input.setAttribute("name", "selecaoextensao");
+                        input.setAttribute("value", d.id);
+                        input.setAttribute("type", "hidden");
+                        deleteLink.setAttribute('class', "btn btn-danger");
+                        deleteLink.setAttribute('id', d.id);
+                        deleteLink.setAttribute('title', "deletar");
+                        deleteLink.setAttribute('onClick', "deletarLinhaTabela(id)");
+                        row.id = d.id * 10;
+                        cellId.innerHTML = d.id;
+                        cellTitulo.innerHTML = d.titulo;
+                        cellCoordenador.innerHTML = d.coordenador;
+                        cellInicio.innerHTML = d.inicio;
+                        cellFim.innerHTML = d.fim;
+                        cellProrrogado.innerHTML = d.prorrogado;
+                        cellCH.innerHTML = d.ch;
+
+                        cellOpcao.appendChild(deleteLink);
+                        cellHidden.appendChild(input);
+
+                    });
+                }
 
                 function confirmarDelecao(event, form) {
                     event.preventDefault();
