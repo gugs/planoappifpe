@@ -7,8 +7,10 @@ const PlanoTrabalho = require("./planotrabalho/PlanoTrabalho");
 const Docente = require("./docente/Docente");
 const Disciplina = require("./disciplina/Disciplina");
 const Extensao = require("./extensao/Extensao");
+const Pesquisa = require("./pesquisa/Pesquisa");
 const PlanoDisciplina = require("./planodisciplina/PlanoDisciplina");
 const PlanoExtensao = require("./planoextensao/PlanoExtensao");
+const PlanoPesquisa = require("./planopesquisa/PlanoPesquisa");
 const connection = require("./database/database");
 
 const session = require("express-session");
@@ -17,12 +19,16 @@ Coordenacao.hasMany(Docente);
 Docente.belongsTo(Coordenacao);
 
 Extensao.belongsTo(Docente);
+Pesquisa.belongsTo(Docente);
 
 PlanoTrabalho.belongsToMany(Disciplina, { through: PlanoDisciplina });
 Disciplina.belongsToMany(PlanoTrabalho, { through: PlanoDisciplina });
 
 Extensao.belongsToMany(PlanoTrabalho, { through: PlanoExtensao });
 PlanoTrabalho.belongsToMany(Extensao, { through: PlanoExtensao });
+
+Pesquisa.belongsToMany(PlanoTrabalho, { through: PlanoPesquisa });
+PlanoTrabalho.belongsToMany(Pesquisa, { through: PlanoPesquisa });
 
 
 connection.sync({ force: false });
