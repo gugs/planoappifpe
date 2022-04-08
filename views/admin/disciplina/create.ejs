@@ -10,24 +10,24 @@
                         <form action="/admin/disciplina/create" method="post">
                             <label class="form-label">Nome da disciplina: </label>
                             <input class="form-control" type="text" name="nome"
-                                placeholder="Digite aqui o nome da disciplina">
+                                placeholder="Digite aqui o nome da disciplina" required>
                             <br>
                             <div class="row col g3 mb-3">
                                 <div class="col md-6">
                                     <label for="form-label">CH/Aula</label>
                                     <input class="form-control" type="number" step=".01" name="cargahorariaaula"
-                                        placeholder="CH aula disciplina">
+                                        placeholder="CH aula disciplina" required>
                                 </div>
                                 <div class="col md-6">
                                     <label for="form-label">CH/Relógio</label>
                                     <input class="form-control" type="number" step=".01" name="cargahorariarelogio"
-                                        placeholder="CH relógio disciplina">
+                                        placeholder="CH relógio disciplina" required>
                                 </div>
                                 <div class="col md-6">
                                     <label for="form-label">Tipo</label>
                                     <div class="input-group mb-3">
-                                        <select class="form-select" name="tipo">
-                                            <option selected>Escolha...</option>
+                                        <select class="form-select" name="tipo" required>
+                                            <option value="">Escolha...</option>
                                             <option value="Integrado">Integrado</option>
                                             <option value="Subsequente">Subsequente</option>
                                             <option value="Superior">Superior</option>

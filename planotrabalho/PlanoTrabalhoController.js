@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-const PlanoTrabalho = require("./planotrabalho");
+const PlanoTrabalho = require("../planotrabalho/PlanoTrabalho");
 const Docente = require("../docente/Docente");
 const Disciplina = require("../disciplina/Disciplina");
 const PlanoDisciplina = require("../planodisciplina/PlanoDisciplina");

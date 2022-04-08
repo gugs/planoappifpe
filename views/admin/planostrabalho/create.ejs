@@ -24,8 +24,8 @@
                                             <div class="row g3 mb-3">
                                                 <div class="col md-4">
                                                     <label class="form-label">Ano: </label>
-                                                    <select class="form-select" name="ano">
-                                                        <option selected>Escolha o ano...</option>
+                                                    <select class="form-select" name="ano" required>
+                                                        <option value="">Escolha o ano...</option>
                                                         <option value="2022">2022</option>
                                                         <option value="2023">2023</option>
                                                         <option value="2024">2024</option>
@@ -33,16 +33,16 @@
                                                 </div>
                                                 <div class="col md-4">
                                                     <label class="form-label">Semestre: </label>
-                                                    <select class="form-select" name="semestre">
-                                                        <option selected>Escolha o ano...</option>
+                                                    <select class="form-select" name="semestre" required>
+                                                        <option value="">Escolha o ano...</option>
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                     </select>
                                                 </div>
                                                 <div class="col md-4">
                                                     <label class="form-label">Grupo: </label>
-                                                    <select class="form-select" name="grupo">
-                                                        <option selected>Escolha o grupo...</option>
+                                                    <select class="form-select" name="grupo" required>
+                                                        <option value="">Escolha o grupo...</option>
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
@@ -55,8 +55,8 @@
                                             <div class="row g3">
                                                 <div class="col md-8">
                                                     <label class="form-label">Disciplinas: </label>
-                                                    <select class="form-select" id="listaDisciplina">
-                                                        <option selected>Escolha...</option>
+                                                    <select class="form-select" id="listaDisciplina" required>
+                                                        <option value="">Escolha...</option>
                                                         <% disciplinas.forEach(disciplina=> { %>
                                                             <option value="<%= disciplina.id %>">
                                                                 <%= disciplina.nome %>

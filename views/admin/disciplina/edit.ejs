@@ -11,24 +11,24 @@
                             <input type="hidden" name="id" value="<%=disciplina.id%>">
                             <label class="form-label">Nome da disciplina: </label>
                             <input class="form-control" type="text" name="nome" value="<%= disciplina.nome%>"
-                                placeholder="Digite aqui o nome da disciplina">
+                                placeholder="Digite aqui o nome da disciplina" required>
                             <br>
                             <div class="row col g3 mb-3">
                                 <div class="col md-6">
                                     <label for="form-label">CH/Aula</label>
-                                    <input class="form-control" type="number" step=".01" name="cargahorariaaula" value="<%= disciplina.cargaHorariaAula%>"
-                                        placeholder="CH aula disciplina">
+                                    <input class="form-control" type="number" step=".01" pattern="[0-9]+([\.,][0-9]+)?" name="cargahorariaaula" value="<%= disciplina.cargaHorariaAula%>"
+                                        placeholder="CH aula disciplina" required>
                                 </div>
                                 <div class="col md-6">
                                     <label for="form-label">CH/Relógio</label>
-                                    <input class="form-control" type="number" step=".01" name="cargahorariarelogio" value="<%= disciplina.cargaHorariaRelogio%>"
-                                        placeholder="CH relógio disciplina">
+                                    <input class="form-control" type="number" step=".01" pattern="[0-9]+([\.,][0-9]+)?" name="cargahorariarelogio" value="<%= disciplina.cargaHorariaRelogio%>"
+                                        placeholder="CH relógio disciplina" required>
                                 </div>
                                 <div class="col md-6">
                                     <label for="form-label">Tipo</label>
                                     <div class="input-group mb-3">
-                                        <select class="form-select" name="tipo">
-                                            <option selected><%= disciplina.tipo%></option>
+                                        <select class="form-select" name="tipo" required>
+                                            <option value=""><%= disciplina.tipo%></option>
                                             <option value="Integrado">Integrado</option>
                                             <option value="Subsequente">Subsequente</option>
                                             <option value="Superior">Superior</option>

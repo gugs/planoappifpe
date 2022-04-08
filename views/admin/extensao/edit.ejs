@@ -12,7 +12,7 @@
                         <label class="form-label">Título do Projeto: </label>
                         <hr>
                         <input class="form-control" type="text" name="titulo"
-                            placeholder="Digite aqui o nome do projeto" value="<%= extensao.titulo %>">
+                            placeholder="Digite aqui o nome do projeto" value="<%= extensao.titulo %>" required>
                         <br>
                         <label class="form-label" for="descricao-projeto">Descrição do Projeto: </label>
                         <textarea class="form-control" name="descricao" rows="10"
@@ -23,18 +23,18 @@
                                 <label class="form-label">Ano de Início: </label>
                                 <input class="form-control mb-3" type="date" name="anoinicio"
                                     placeholder="Digite aqui o ano de início do projeto"
-                                    value="<%= extensao.anoinicio %>">
+                                    value="<%= extensao.anoinicio %>" required>
                             </div>
                             <div class="col md-6">
                                 <label class="form-label">Ano de Término: </label>
                                 <input class="form-control mb-3" type="date" name="anofim"
                                     placeholder="Digite aqui o ano de término do projeto"
-                                    value="<%= extensao.anofim %>">
+                                    value="<%= extensao.anofim %>" required>
                             </div>
                             <div class="col md-6">
                                 <label class="form-label">Carga Horária: </label>
                                 <input class="form-control mb-3" type="number" name="cargahoraria"
-                                    placeholder="Digite aqui a carga horária em horas" value="<%= extensao.cargahoraria %>">
+                                    placeholder="Digite aqui a carga horária em horas" value="<%= extensao.cargahoraria %>" required>
                             </div>
                             <div class="col md-6">
                                 <label class="form-check-label" for="exampleCheck1">Prorrogação:</label><br>

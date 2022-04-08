@@ -12,25 +12,25 @@
                             <label class="form-label">Nome do Docente: </label>
                             <hr>
                             <input class="form-control" type="text" name="nome" value="<%= docente.nome%>"
-                                placeholder="Digite aqui o nome do docente">
+                                placeholder="Digite aqui o nome do docente" required>
                             <br>
                             <div class="row g3 mb-3">
                                 <div class="col md-6">
                                     <label class="form-label">SIAPE: </label>
                                     <input class="form-control mb-3" type="text" name="siape" value="<%= docente.siape%>"
-                                        placeholder="Digite aqui o número SIAPE">
+                                        placeholder="Digite aqui o número SIAPE" required>
                                 </div>
                                 <div class="col md-6">
                                     <label class="form-label">Email: </label>
                                     <input class="form-control" type="email" name="email" value="<%= docente.email%>"
-                                        placeholder="exemplo@exemplo.com">
+                                        placeholder="exemplo@exemplo.com" required>
                                 </div>
                             </div>
                             <div class="row g3">
                                 <div class="col md-4">
                                     <label class="form-label">Regime de Trabalho: </label>
                                     <div class="input-group mb-3">
-                                        <select class="form-select" name="regime" readonly>
+                                        <select class="form-select" name="regime" required>
                                             <option selected value="<%= docente.regime%>"><%= docente.regime%></option>
                                             <option value="1">20</option>
                                             <option value="2">40</option>
@@ -41,7 +41,7 @@
                                 <div class="col md-4">
                                     <label class="form-label">Coordenação: </label>
                                     <div class="input-group mb-3">
-                                        <select class="form-select" name="coordenacaoId">
+                                        <select class="form-select" name="coordenacaoId" required>
                                             <option selected><%= docente.coordenacao.nome%></option>
                                             <% coordenacoes.forEach(coordenacao => { %>
                                                 <option value="<%= coordenacao.id %>">

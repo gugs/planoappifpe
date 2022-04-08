@@ -11,35 +11,35 @@
                             <label class="form-label">Nome do Docente: </label>
                             <hr>
                             <input class="form-control" type="text" name="nome"
-                                placeholder="Digite aqui o nome do docente">
+                                placeholder="Digite aqui o nome do docente" required>
                             <br>
                             <div class="row g3 mb-3">
                                 <div class="col md-6">
                                     <label class="form-label">SIAPE: </label>
                                     <input class="form-control mb-3" type="text" name="siape"
-                                        placeholder="Digite aqui o número SIAPE">
+                                        placeholder="Digite aqui o número SIAPE" required>
                                 </div>
                                 <div class="col md-6">
                                     <label class="form-label">Email: </label>
                                     <input class="form-control" type="email" name="email"
-                                        placeholder="exemplo@exemplo.com">
+                                        placeholder="exemplo@exemplo.com" required>
                                 </div>
                             </div>
                             <div class="row g3">
                                 <div class="col md-4">
                                     <label class="form-label">Digite a sua Senha: </label>
-                                    <input class="form-control" type="password" name="senha1" placeholder="********">
+                                    <input class="form-control" type="password" name="senha1" placeholder="********" required>
                                 </div>
                                 <div class="col md-4">
                                     <label class="form-label">Confirme sua Senha: </label>
-                                    <input class="form-control" type="password" name="senha2" placeholder="********">
+                                    <input class="form-control" type="password" name="senha2" placeholder="********" required>
                                 </div>
 
                                 <div class="col md-4">
                                     <label class="form-label">Regime de Trabalho: </label>
                                     <div class="input-group mb-3">
-                                        <select class="form-select" name="regime">
-                                            <option selected>Escolha...</option>
+                                        <select class="form-select" name="regime" required>
+                                            <option value="">Escolha...</option>
                                             <option value="1">20</option>
                                             <option value="2">40</option>
                                             <option value="3">DE</option>
@@ -51,8 +51,8 @@
                                 <div class="col md-4">
                                     <label class="form-label">Coordenação: </label>
                                     <div class="input-group mb-3">
-                                        <select class="form-select" name="coordenacaoId">
-                                            <option selected>Escolha...</option>
+                                        <select class="form-select" name="coordenacaoId" required>
+                                            <option value="">Escolha...</option>
                                             <% coordenacoes.forEach(coordenacao => { %>
                                                 <option value="<%= coordenacao.id %>">
                                                     <%= coordenacao.nome %>
@@ -64,8 +64,8 @@
                                 <div class="col md-4">
                                     <label class="form-check-label" for="exampleCheck1">Conta administradora ?</label><br>
                                     <div class="input-group mt-2">
-                                        <select class="form-select" name="admin">
-                                            <option selected>Escolha...</option>
+                                        <select class="form-select" name="admin" required>
+                                            <option value="">Escolha...</option>
                                             <option value="1">Sim</option>
                                             <option value="2">Não</option>
                                         </select>
