@@ -32,6 +32,7 @@ const docenteAuth = require("../middleware/docenteAuth");
 const adminAuth = require("../middleware/adminAuth");
 const Extensao = require("../extensao/Extensao");
 const PlanoExtensao = require("../planoextensao/PlanoExtensao");
+const Pesquisa = require("../pesquisa/Pesquisa");
 
 router.get("/planotrabalho/create", docenteAuth, (req, res) => {
     var sessionId = req.session.docente.id;
@@ -39,18 +40,21 @@ router.get("/planotrabalho/create", docenteAuth, (req, res) => {
     Docente.findOne({ where: { id: sessionId } }).then(docente => {
         Disciplina.findAll().then(disciplinas => {
             Extensao.findAll({ include: { model: Docente, as: "docente" } }).then(extensoes => {
-                PlanoTrabalho.findOne({
-                    order: [['id', 'DESC']],
-                }).then(plano => {
-                    if (plano != undefined) {
-                        res.render('planotrabalho/create', { docente: docente, disciplinas: disciplinas, extensoes: extensoes, plano: plano });
-                    }
-                    else {
-                        var planoNovo = {
-                            id: 0
-                        }
-                        res.render('planotrabalho/create', { docente: docente, disciplinas: disciplinas, extensoes: extensoes, plano: planoNovo });
-                    }
+                Pesquisa.findAll({include: {model: Docente, as: "docente"} }).then(pesquisas =>
+                    {
+                        PlanoTrabalho.findOne({
+                            order: [['id', 'DESC']],
+                        }).then(plano => {
+                            if (plano != undefined) {
+                                res.render('planotrabalho/create', { docente: docente, disciplinas: disciplinas, extensoes: extensoes, pesquisas: pesquisas, plano: plano });
+                            }
+                            else {
+                                var planoNovo = {
+                                    id: 0
+                                }
+                                res.render('planotrabalho/create', { docente: docente, disciplinas: disciplinas, extensoes: extensoes, pesquisas: pesquisas, plano: planoNovo });
+                            }
+                    })
                 });
             });
         });

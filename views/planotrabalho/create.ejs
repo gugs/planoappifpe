@@ -53,6 +53,7 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <hr>
                                             <div class="row g3">
                                                 <div class="col md-8">
                                                     <label class="form-label">Disciplinas: </label>
@@ -84,7 +85,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-    
+
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -127,7 +128,44 @@
                                                 </table>
                                             </div>
                                             <hr>
-                                            <br>
+                                            <div class="row g3">
+                                                <div class="col md-8">
+                                                    <label class="form-label">Projetos de Pesquisa: </label>
+                                                    <select class="form-select" id="listaPesquisa">
+                                                        <option value="">Escolha...</option>
+                                                        <% pesquisas.forEach(pesquisa=> { %>
+                                                            <option value="<%= pesquisa.id %>">
+                                                                <%= pesquisa.id %>
+                                                                    <%= pesquisa.titulo %>
+                                                            </option>
+                                                            <% }) %>
+                                                    </select>
+                                                </div>
+                                                <div class="col md-8 mt-4">
+                                                    <label class="form-label"></label>
+                                                    <a class="btn btn-success" type="button" id="buttonAddPes"
+                                                        onclick="addOnComboListPes()">Adicionar</a>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered mt-4" id="itensSelecionadosPes">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Título</th>
+                                                            <th>Coordenador(a)</th>
+                                                            <th>Ano Início</th>
+                                                            <th>Ano Término</th>
+                                                            <th>Renovação</th>
+                                                            <th>CH</th>
+                                                            <th>Ação</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <hr>
                                             <label class="form-label">Observações: </label>
                                             <textarea class="form-control" name="observacoes"
                                                 placeholder="Insira as observações do seu plano"
@@ -138,7 +176,7 @@
                                             <input type="file" class="form-control" name="customFile" accept=".pdf"
                                                 required />
                                             <br>
-                                            <input class="btn btn-success" type="submit" value="Cadastrar2">
+                                            <input class="btn btn-success" type="submit" value="Cadastrar">
                                             <a class="btn btn-primary" href="/planotrabalho/index">Voltar</a>
                                     </div>
                                     </form>
@@ -216,13 +254,18 @@
                                 }
 
                                 function deletarLinhaTabela(id) {
-                                    
+
                                     document.getElementById(id * 10).remove();
                                 }
 
                                 function deletarLinhaTabelaEx(id) {
-                                    
+
                                     document.getElementById(id * 100).remove();
+                                }
+
+                                function deletarLinhaTabelaPes(id) {
+
+                                    document.getElementById(id * 1000).remove();
                                 }
 
                                 function listaIDELementosTabela() {
@@ -256,6 +299,17 @@
                                         extensoesId.unshift(x);
                                     }
                                     return extensoesId.includes(a);
+                                }
+
+                                function containItemTabelaPes(a) {
+                                    var pesquisasId = [];
+                                    var size = document.getElementById("itensSelecionadosPes").rows.length;
+                                    var x;
+                                    for (var i = 1; i < size; i++) {
+                                        x = document.getElementById("itensSelecionadosPes").rows[i].cells[0].innerHTML;
+                                        pesquisasId.unshift(x);
+                                    }
+                                    return pesquisasId.includes(a);
                                 }
 
 
@@ -307,6 +361,72 @@
                                                 deleteLink.setAttribute('title', "deletar");
                                                 deleteLink.setAttribute('onClick', "deletarLinhaTabelaEx(id)");
                                                 row.id = d.id * 100;
+                                                cellId.innerHTML = d.id;
+                                                cellTitulo.innerHTML = d.titulo;
+                                                cellCoordenador.innerHTML = d.coordenador;
+                                                cellInicio.innerHTML = d.inicio;
+                                                cellFim.innerHTML = d.fim;
+                                                cellProrrogado.innerHTML = d.prorrogado;
+                                                cellCH.innerHTML = d.ch;
+
+                                                cellOpcao.appendChild(deleteLink);
+                                                cellHidden.appendChild(input);
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        alert("Item já adicionado na lista");
+                                    }
+                                }
+
+                                function addOnComboListPes() {
+
+                                    var pesquisasLocal = [];
+                                    var research;
+
+
+                                    <% pesquisas.forEach(pes => { %>
+                                        research = {
+                                            "id": "<%= pes.id %>",
+                                                "titulo": "<%= pes.titulo %>",
+                                                    "coordenador": "<%= pes.docente.nome%>",
+                                                        "inicio": "<%= pes.anoinicio %>",
+                                                            "fim": "<%= pes.anofim %>",
+                                                                "prorrogado": "<%= pes.prorrogado %>",
+                                                                    "ch": "<%= pes.cargahoraria %>",
+                                    }
+                                        pesquisasLocal.unshift(research);
+                                    <% }) %>
+
+                                    var el = document.getElementById("listaPesquisa");
+                                    var tabela = document.getElementById("itensSelecionadosPes").getElementsByTagName('tbody')[0];
+
+                                    if (!containItemTabelaPes(el.value)) {
+                                        pesquisasLocal.forEach(d => {
+                                            if (d.id === el.value) {
+                                                var row = tabela.insertRow(0);
+                                                row.setAttribute("name", "selecaopesquisa");
+                                                row.setAttribute("value", d.id);
+                                                row.setAttribute("type", "input");
+                                                var cellId = row.insertCell(0);
+                                                var cellTitulo = row.insertCell(1);
+                                                var cellCoordenador = row.insertCell(2);
+                                                var cellInicio = row.insertCell(3);
+                                                var cellFim = row.insertCell(4);
+                                                var cellProrrogado = row.insertCell(5);
+                                                var cellCH = row.insertCell(6);
+                                                var cellOpcao = row.insertCell(7);
+                                                var cellHidden = row.insertCell(8);
+                                                var deleteLink = document.createElement("a");
+                                                var input = document.createElement("input");
+                                                input.setAttribute("name", "selecaopesquisa");
+                                                input.setAttribute("value", d.id);
+                                                input.setAttribute("type", "hidden");
+                                                deleteLink.setAttribute('class', "btn btn-danger");
+                                                deleteLink.setAttribute('id', d.id);
+                                                deleteLink.setAttribute('title', "deletar");
+                                                deleteLink.setAttribute('onClick', "deletarLinhaTabelaPes(id)");
+                                                row.id = d.id * 1000;
                                                 cellId.innerHTML = d.id;
                                                 cellTitulo.innerHTML = d.titulo;
                                                 cellCoordenador.innerHTML = d.coordenador;
