@@ -1,0 +1,72 @@
+<%- include('../../partials/header.ejs') -%>
+    <%- include('../../partials/navbaradmin.ejs') -%>
+
+        <div class="container">
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h2>Informe os dados do projeto de pesquisa:</h2>
+                </div>
+                <div class="card-body">
+                    <form action="/admin/pesquisa/update" method="post">
+                        <input type="hidden" name="id" value="<%= pesquisa.id %>">
+                        <label class="form-label">Título do Projeto: </label>
+                        <hr>
+                        <input class="form-control" type="text" name="titulo"
+                            placeholder="Digite aqui o nome do projeto" value="<%= pesquisa.titulo %>" required>
+                        <br>
+                        <label class="form-label" for="descricao-projeto">Descrição do Projeto: </label>
+                        <textarea class="form-control" name="descricao" rows="10"
+                            placeholder="Digite aqui a descrição do projto"><%= pesquisa.descricao %></textarea>
+                        <br>
+                        <div class="row g3 mb-3">
+                            <div class="col md-6">
+                                <label class="form-label">Ano de Início: </label>
+                                <input class="form-control mb-3" type="date" name="anoinicio"
+                                    placeholder="Digite aqui o ano de início do projeto"
+                                    value="<%= pesquisa.anoinicio %>" required>
+                            </div>
+                            <div class="col md-6">
+                                <label class="form-label">Ano de Término: </label>
+                                <input class="form-control mb-3" type="date" name="anofim"
+                                    placeholder="Digite aqui o ano de término do projeto"
+                                    value="<%= pesquisa.anofim %>" required>
+                            </div>
+                            <div class="col md-6">
+                                <label class="form-label">Carga Horária: </label>
+                                <input class="form-control mb-3" type="number" name="cargahoraria"
+                                    placeholder="Digite aqui a carga horária em horas" value="<%= pesquisa.cargahoraria %>" required>
+                            </div>
+                            <div class="col md-6">
+                                <label class="form-check-label" for="exampleCheck1">Prorrogação:</label><br>
+                                <div class="input-group mt-2">
+                                    <select class="form-select" name="prorrogado" required>
+                                        <option selected>Escolha...</option>
+                                        <option value="1">Sim</option>
+                                        <option value="0">Não</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g3">
+                            <div class="col md-4">
+                                <label class="form-label">Docente coordenador: </label>
+                                <div class="input-group mb-3">
+                                    <select class="form-select" name="docenteId" required>
+                                        <option selected>Escolha...</option>
+                                        <% docentes.forEach(docente=> { %>
+                                            <option value="<%= docente.id %>">
+                                                <%= docente.nome %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <input type="submit" value="Cadastrar" class="btn btn-success">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <%- include('../../partials/footer.ejs') -%>

@@ -40,6 +40,7 @@ const docenteController = require("./docente/docenteController");
 const disciplinaController = require("./disciplina/DisciplinaController");
 const PlanoTrabalhoController = require("./planotrabalho/PlanoTrabalhoController");
 const extensaoController = require("./extensao/ExtensaoController");
+const pesquisaController = require("./pesquisa/PesquisaController");
 
 
 //importando o modulo body parser (manipulador dos campos http)
@@ -65,6 +66,7 @@ app.use("/", docenteController);
 app.use("/", disciplinaController);
 app.use("/", PlanoTrabalhoController);
 app.use("/", extensaoController);
+app.use("/", pesquisaController);
 
 app.get("/", (req, res) => {
     res.render("login/login");
